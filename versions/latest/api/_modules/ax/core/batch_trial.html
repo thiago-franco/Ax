@@ -134,9 +134,7 @@ src="/js/documentation_options.js">
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">arm_weights</span><span class="p">[</span><span class="n">arm</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaled_weight</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">arm_weights</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">+</span> <span class="n">arm_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span><span class="p">,</span> <span class="mf">0.0</span>
-            <span class="p">)</span>
+            <span class="n">arm_weights</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span>
         <span class="k">return</span> <span class="n">arm_weights</span>
 
     <span class="nd">@arm_weights</span><span class="o">.</span><span class="n">setter</span>
@@ -286,8 +284,8 @@ src="/js/documentation_options.js">
 <span class="sd">        status quo, where sum_weights is the sum of the weights of the existing</span>
 <span class="sd">        arms, excluding the status quo. This will be optimal in terms of</span>
 <span class="sd">        statistical power in the case where:</span>
-<span class="sd">            1) status quo is the only arm to compare against</span>
-<span class="sd">            2) all other arms are of equal interest</span>
+<span class="sd">            1) status quo is the only arm to compare against,</span>
+<span class="sd">            2) all other arms are of equal interest.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -299,23 +297,7 @@ src="/js/documentation_options.js">
         <span class="n">arm_weights</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_weights</span><span class="p">)</span>
         <span class="n">sum_weights</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">arm</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">arm_weights</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">arm</span> <span class="o">!=</span> <span class="n">status_quo</span><span class="p">)</span>
         <span class="n">optimal_status_quo_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sum_weights</span><span class="p">)</span>
-
-        <span class="c1"># arm_weights[status_quo] will be equal to the weight that the status quo</span>
-        <span class="c1"># has from the generator runs, plus _status_quo_weight.</span>
-        <span class="c1"># Thus, to make sure that arm_weights[status_quo] = optimal_status_quo_weight,</span>
-        <span class="c1"># _status_quo_weight should be equal to optimal_status_quo_weight - the amount</span>
-        <span class="c1"># of weight that the status quo has from the generator runs.</span>
-        <span class="n">status_quo_weight_from_generator_runs</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">arm_weights</span><span class="p">[</span><span class="n">status_quo</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Technically it's possible for _status_quo_weight to be negative here,</span>
-        <span class="c1"># if the weight of the status quo in the generator runs is larger than</span>
-        <span class="c1"># the optimal weight. But that's okay, because that's the only way</span>
-        <span class="c1"># to get the status quo to the correct weight.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">optimal_status_quo_weight</span> <span class="o">-</span> <span class="n">status_quo_weight_from_generator_runs</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">=</span> <span class="n">optimal_status_quo_weight</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
