@@ -733,7 +733,12 @@ src="/js/documentation_options.js">
         <span class="p">):</span>
             <span class="c1"># `ModelBridge` still has no attr. `model` after `hasattr` call,</span>
             <span class="c1"># pyre-fixme[16]: which should've ensured its presence to typechecker.</span>
-            <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_get_state</span><span class="p">())</span></div>
+            <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_get_state</span><span class="p">())</span>
+
+<div class="viewcode-block" id="ModelBridge.feature_importances"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.base.ModelBridge.feature_importances">[docs]</a>    <span class="k">def</span> <span class="nf">feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"Feature importance not available for this model type"</span>
+        <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="unwrap_observation_data"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.base.unwrap_observation_data">[docs]</a><span class="k">def</span> <span class="nf">unwrap_observation_data</span><span class="p">(</span><span class="n">observation_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TModelPredict</span><span class="p">:</span>

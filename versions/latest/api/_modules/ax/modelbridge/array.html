@@ -47,6 +47,7 @@ src="/js/documentation_options.js">
     <span class="n">pending_observations_as_array</span><span class="p">,</span>
     <span class="n">transform_callback</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
 
 
 <span class="n">FIT_MODEL_ERROR</span> <span class="o">=</span> <span class="s2">"Model must be fit before </span><span class="si">{action}</span><span class="s2">."</span>
@@ -85,7 +86,7 @@ src="/js/documentation_options.js">
         <span class="n">all_metric_names</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">od</span> <span class="ow">in</span> <span class="n">observation_data</span><span class="p">:</span>
             <span class="n">all_metric_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">od</span><span class="o">.</span><span class="n">metric_names</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_metric_names</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_metric_names</span><span class="p">))</span>  <span class="c1"># Deterministic order.</span>
         <span class="c1"># Convert observations to arrays</span>
         <span class="n">Xs_array</span><span class="p">,</span> <span class="n">Ys_array</span><span class="p">,</span> <span class="n">Yvars_array</span> <span class="o">=</span> <span class="n">_convert_observations</span><span class="p">(</span>
             <span class="n">observation_data</span><span class="o">=</span><span class="n">observation_data</span><span class="p">,</span>
@@ -349,7 +350,13 @@ src="/js/documentation_options.js">
             <span class="nb">float</span><span class="p">(</span><span class="n">observation_features</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span>
         <span class="p">]</span>
         <span class="c1"># turn it back into an array</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_x</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ArrayModelBridge.feature_importances"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.array.ArrayModelBridge.feature_importances">[docs]</a>    <span class="k">def</span> <span class="nf">feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">importances_tensor</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">feature_importances</span><span class="p">()</span>
+        <span class="n">importances_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">,</span> <span class="n">importances_tensor</span><span class="p">))</span>
+        <span class="n">importances_arr</span> <span class="o">=</span> <span class="n">importances_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">importances_arr</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="array_to_observation_data"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.array.array_to_observation_data">[docs]</a><span class="k">def</span> <span class="nf">array_to_observation_data</span><span class="p">(</span>

@@ -30,8 +30,9 @@ src="/js/documentation_options.js">
 <span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
 
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">cast</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TConfig</span>
 <span class="kn">from</span> <span class="nn">ax.models.model_utils</span> <span class="k">import</span> <span class="n">best_observed_point</span>
@@ -44,7 +45,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.models.torch.utils</span> <span class="k">import</span> <span class="n">_get_X_pending_and_observed</span>
 <span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="k">import</span> <span class="n">TorchModel</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="k">import</span> <span class="n">copy_doc</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span><span class="p">,</span> <span class="n">not_none</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="k">import</span> <span class="n">AcquisitionFunction</span>
 <span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="k">import</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
@@ -425,7 +426,16 @@ src="/js/documentation_options.js">
             <span class="n">fidelity_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span><span class="p">,</span>
             <span class="n">fidelity_model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_model_id</span><span class="p">,</span>
             <span class="n">refit_model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">refit_on_update</span><span class="p">,</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BotorchModel.feature_importances"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.feature_importances">[docs]</a>    <span class="k">def</span> <span class="nf">feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">"Cannot calculate feature_importances without a fitted model"</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">covar_module</span><span class="o">.</span><span class="n">base_kernel</span><span class="o">.</span><span class="n">lengthscale</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Tensor</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">ls</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div></div>
 
 
 <div class="viewcode-block" id="get_rounding_func"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.get_rounding_func">[docs]</a><span class="k">def</span> <span class="nf">get_rounding_func</span><span class="p">(</span>

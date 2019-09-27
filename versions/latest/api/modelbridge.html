@@ -340,6 +340,15 @@ specification.</p>
 </dl>
 </dd></dl>
 <dl class="method">
+<dt id="ax.modelbridge.base.ModelBridge.feature_importances">
+<code class="sig-name descname">feature_importances</code><span class="sig-paren">(</span><em class="sig-param">metric_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/base.html#ModelBridge.feature_importances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.base.ModelBridge.feature_importances" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
 <dt id="ax.modelbridge.base.ModelBridge.gen">
 <code class="sig-name descname">gen</code><span class="sig-paren">(</span><em class="sig-param">n</em>, <em class="sig-param">search_space=None</em>, <em class="sig-param">optimization_config=None</em>, <em class="sig-param">pending_observations=None</em>, <em class="sig-param">fixed_features=None</em>, <em class="sig-param">model_gen_options=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/base.html#ModelBridge.gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.base.ModelBridge.gen" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -517,6 +526,15 @@ That format assumes each observation data has the same set of metrics.</p>
 RangeParameters with float type and no log scale. Task parameters must be
 transformed to RangeParameters with int type.</p>
 <p>This will convert all parameter types to float and put data into arrays.</p>
+<dl class="method">
+<dt id="ax.modelbridge.array.ArrayModelBridge.feature_importances">
+<code class="sig-name descname">feature_importances</code><span class="sig-paren">(</span><em class="sig-param">metric_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/array.html#ArrayModelBridge.feature_importances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.array.ArrayModelBridge.feature_importances" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
 </dd></dl>
 <dl class="function">
 <dt id="ax.modelbridge.array.array_to_observation_data">
