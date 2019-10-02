@@ -87,15 +87,28 @@ src="/js/documentation_options.js">
         <span class="n">experiment</span><span class="p">:</span> <span class="s2">"core.experiment.Experiment"</span><span class="p">,</span>
         <span class="n">generator_run</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GeneratorRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trial_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">optimize_for_power</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">trial_type</span><span class="o">=</span><span class="n">trial_type</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_generator_run_structs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GeneratorRunStruct</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_abandoned_arms_metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AbandonedArm</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Arm</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight_override</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">generator_run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_generator_run</span><span class="p">(</span><span class="n">generator_run</span><span class="o">=</span><span class="n">generator_run</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">status_quo</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimize_for_power</span> <span class="o">=</span> <span class="n">optimize_for_power</span>
+        <span class="n">status_quo</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">status_quo</span>
+        <span class="k">if</span> <span class="n">optimize_for_power</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">status_quo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Can only optimize for power if experiment has a status quo."</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_status_quo_and_optimize_power</span><span class="p">(</span><span class="n">status_quo</span><span class="o">=</span><span class="n">status_quo</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Set the status quo for tracking purposes</span>
+            <span class="c1"># It will not be included in arm_weights</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"core.experiment.Experiment"</span><span class="p">:</span>
@@ -133,8 +146,11 @@ src="/js/documentation_options.js">
                     <span class="n">arm_weights</span><span class="p">[</span><span class="n">arm</span><span class="p">]</span> <span class="o">+=</span> <span class="n">scaled_weight</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">arm_weights</span><span class="p">[</span><span class="n">arm</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaled_weight</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">arm_weights</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight_override</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># If override is specified, this is the weight the status quo gets,</span>
+            <span class="c1"># regardless of whether it appeared in any generator runs.</span>
+            <span class="c1"># If no override is specified, status quo does not appear in arm_weights.</span>
+            <span class="n">arm_weights</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight_override</span>
         <span class="k">return</span> <span class="n">arm_weights</span>
 
     <span class="nd">@arm_weights</span><span class="o">.</span><span class="n">setter</span>
@@ -216,8 +232,9 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
         <span class="n">generator_run</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generator_run_structs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 
-        <span class="c1"># Resetting status quo reweights the status_quo, based on new arms</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reweight_status_quo</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_for_power</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_status_quo_and_optimize_power</span><span class="p">(</span><span class="n">status_quo</span><span class="o">=</span><span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
@@ -227,16 +244,24 @@ src="/js/documentation_options.js">
 
     <span class="nd">@status_quo</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">status_quo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Arm</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">"""Sets status quo arm."""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_status_quo_with_weight</span><span class="p">(</span><span class="n">status_quo</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"Use `set_status_quo_with_weight` or "</span>
+            <span class="s2">"`set_status_quo_and_optimize_power` "</span>
+            <span class="s2">"to set the status quo arm."</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="BatchTrial.unset_status_quo"><a class="viewcode-back" href="../../../core.html#ax.BatchTrial.unset_status_quo">[docs]</a>    <span class="k">def</span> <span class="nf">unset_status_quo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Set the status quo to None."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="nd">@immutable_once_run</span>
     <span class="k">def</span> <span class="nf">set_status_quo_with_weight</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Arm</span><span class="p">],</span> <span class="n">weight</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">status_quo</span><span class="p">:</span> <span class="n">Arm</span><span class="p">,</span> <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"BatchTrial"</span><span class="p">:</span>
-        <span class="sd">"""Sets status quo arm.</span>
-
-<span class="sd">        Defaults weight to average of existing weights or 1.0 if no weights exist.</span>
+        <span class="sd">"""Sets status quo arm with given weight. This weight *overrides* any</span>
+<span class="sd">        weight the status quo has from generator runs attached to this batch.</span>
+<span class="sd">        Thus, this function is not the same as using add_arm, which will</span>
+<span class="sd">        result in the weight being additive over all generator runs.</span>
 <span class="sd">        """</span>
         <span class="c1"># Assign a name to this arm if none exists</span>
         <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">weight</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -250,33 +275,18 @@ src="/js/documentation_options.js">
                 <span class="n">arm</span><span class="o">=</span><span class="n">status_quo</span><span class="p">,</span> <span class="n">proposed_name</span><span class="o">=</span><span class="s2">"status_quo_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reweight_status_quo</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="nd">@immutable_once_run</span>
-    <span class="k">def</span> <span class="nf">reweight_status_quo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"BatchTrial"</span><span class="p">:</span>
-        <span class="sd">"""Update status quo weight.</span>
-
-<span class="sd">        If arms have been added since the status quo was initially added,</span>
-<span class="sd">        the optimal weight of the status quo may change.</span>
-<span class="sd">        """</span>
-        <span class="n">status_quo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span>
-        <span class="c1"># Unset status_quo so avg weight computation works as intended</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">weight</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="mf">1.0</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-                <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">=</span> <span class="n">weight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight_override</span> <span class="o">=</span> <span class="n">weight</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@immutable_once_run</span>
     <span class="k">def</span> <span class="nf">set_status_quo_and_optimize_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_quo</span><span class="p">:</span> <span class="n">Arm</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"BatchTrial"</span><span class="p">:</span>
         <span class="sd">"""Adds a status quo arm to the batch and optimizes for power.</span>
-<span class="sd">]</span>
+
+<span class="sd">        Note: this optimization based on the arms that are currently attached</span>
+<span class="sd">        to the batch. If you add more arms later, you should re-run this function.</span>
+<span class="sd">        If you want the optimization to happen automatically,</span>
+<span class="sd">        set batch.optimize_for_power = True.</span>
+
 <span class="sd">        This function will maximize power across the multiple pair-wise</span>
 <span class="sd">        comparisons of existing arms against the status_quo.</span>
 
@@ -287,17 +297,19 @@ src="/js/documentation_options.js">
 <span class="sd">            1) status quo is the only arm to compare against,</span>
 <span class="sd">            2) all other arms are of equal interest.</span>
 <span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="c1"># If status quo is the only arm, don't adjust weights</span>
-            <span class="c1"># (will end up setting status quo weight to 0.0)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># If status quo is the only arm, just set its weight to 1</span>
+            <span class="c1"># Can't use logic below, because it will choose 0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_status_quo_with_weight</span><span class="p">(</span><span class="n">status_quo</span><span class="o">=</span><span class="n">status_quo</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span>
 
-        <span class="c1"># arm_weights should always have at least one arm now, the status quo</span>
+        <span class="c1"># arm_weights should always have at least one arm now</span>
         <span class="n">arm_weights</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm_weights</span><span class="p">)</span>
         <span class="n">sum_weights</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">arm</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">arm_weights</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">arm</span> <span class="o">!=</span> <span class="n">status_quo</span><span class="p">)</span>
-        <span class="n">optimal_status_quo_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sum_weights</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">=</span> <span class="n">optimal_status_quo_weight</span>
+        <span class="n">optimal_status_quo_weight_override</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sum_weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_status_quo_with_weight</span><span class="p">(</span>
+            <span class="n">status_quo</span><span class="o">=</span><span class="n">status_quo</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">optimal_status_quo_weight_override</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>

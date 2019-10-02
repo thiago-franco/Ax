@@ -527,6 +527,78 @@ metrics.</p>
 <h3>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
+<div class="section" id="module-ax.service.utils.best_point">
+<span id="best-point-identification"></span><h2>Best Point Identification<a class="headerlink" href="#module-ax.service.utils.best_point" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ax.service.utils.best_point.get_best_from_model_predictions">
+<code class="sig-prename descclassname">ax.service.utils.best_point.</code><code class="sig-name descname">get_best_from_model_predictions</code><span class="sig-paren">(</span><em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/best_point.html#get_best_from_model_predictions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.best_point.get_best_from_model_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an experiment, identifies the best arm according to the outputs
+of models used in optimization and its corresponding predictions if available.</p>
+<dl class="simple">
+<dt>TModelPredictArm is of the form:</dt><dd><p>({metric_name: mean}, {metric_name_1: {metric_name_2: cov_1_2}})</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – Experiment, on which to identify best raw objective arm.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]]]]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple of parameterization and model predictions for it.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.service.utils.best_point.get_best_parameters">
+<code class="sig-prename descclassname">ax.service.utils.best_point.</code><code class="sig-name descname">get_best_parameters</code><span class="sig-paren">(</span><em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/best_point.html#get_best_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.best_point.get_best_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an experiment, identifies the best arm.</p>
+<p>First attempts according to do so with models used in optimization and
+its corresponding predictions if available. Falls back to the best raw
+objective based on the data fetched from the experiment.</p>
+<dl class="simple">
+<dt>TModelPredictArm is of the form:</dt><dd><p>({metric_name: mean}, {metric_name_1: {metric_name_2: cov_1_2}})</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – Experiment, on which to identify best raw objective arm.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]]]]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple of parameterization and model predictions for it.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.service.utils.best_point.get_best_raw_objective_point">
+<code class="sig-prename descclassname">ax.service.utils.best_point.</code><code class="sig-name descname">get_best_raw_objective_point</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">optimization_config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/best_point.html#get_best_raw_objective_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.best_point.get_best_raw_objective_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an experiment, identifies the arm that had the best raw objective,
+based on the data fetched from the experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – Experiment, on which to identify best raw objective arm.</p></li>
+<li><p><strong>optimization_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a>]) – Optimization config to use in absence or in place of
+the one stored on the experiment.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Tuple of parameterization and a mapping from metric name to a tuple of</dt><dd><p>the corresponding objective mean and SEM.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.service.utils.dispatch">
 <span id="dispatch"></span><h2>Dispatch<a class="headerlink" href="#module-ax.service.utils.dispatch" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -630,7 +702,7 @@ to a TFidelityTrialEvaluation.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Experiment name.</p></li>
-<li><p><strong>db_settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code>) – Defines behavior for loading/saving experiment to/from db.</p></li>
+<li><p><strong>db_settings</strong> (<a class="reference internal" href="storage.html#ax.storage.sqa_store.structs.DBSettings" title="ax.storage.sqa_store.structs.DBSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code></a>) – Defines behavior for loading/saving experiment to/from db.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -649,7 +721,7 @@ to a TFidelityTrialEvaluation.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> – Experiment name.</p></li>
-<li><p><strong>db_settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code>) – Defines behavior for loading/saving experiment to/from db.</p></li>
+<li><p><strong>db_settings</strong> (<a class="reference internal" href="storage.html#ax.storage.sqa_store.structs.DBSettings" title="ax.storage.sqa_store.structs.DBSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code></a>) – Defines behavior for loading/saving experiment to/from db.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -668,7 +740,7 @@ to a TFidelityTrialEvaluation.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – <cite>Experiment</cite> object.</p></li>
-<li><p><strong>db_settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code>) – Defines behavior for loading/saving experiment to/from db.</p></li>
+<li><p><strong>db_settings</strong> (<a class="reference internal" href="storage.html#ax.storage.sqa_store.structs.DBSettings" title="ax.storage.sqa_store.structs.DBSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code></a>) – Defines behavior for loading/saving experiment to/from db.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -685,7 +757,7 @@ to a TFidelityTrialEvaluation.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – <cite>Experiment</cite> object.</p></li>
 <li><p><strong>generation_strategy</strong> (<a class="reference internal" href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a>) – Corresponding generation strategy.</p></li>
-<li><p><strong>db_settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code>) – Defines behavior for loading/saving experiment to/from db.</p></li>
+<li><p><strong>db_settings</strong> (<a class="reference internal" href="storage.html#ax.storage.sqa_store.structs.DBSettings" title="ax.storage.sqa_store.structs.DBSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code></a>) – Defines behavior for loading/saving experiment to/from db.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -715,6 +787,7 @@ to a TFidelityTrialEvaluation.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ax.service</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.service.ax_client">Ax Client</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.service.managed_loop">Managed Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.service.utils.best_point">Best Point Identification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.service.utils.dispatch">Dispatch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.service.utils.instantiation">Instantiation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.service.utils.storage">Storage</a></li>

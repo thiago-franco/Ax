@@ -534,6 +534,7 @@ src="/js/documentation_options.js">
         <span class="n">abandoned_arms</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">generator_runs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">status_quo_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">optimize_for_power</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">BatchTrial</span><span class="p">):</span>
             <span class="n">abandoned_arms</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">abandoned_arm_to_sqa</span><span class="p">(</span><span class="n">abandoned_arm</span><span class="o">=</span><span class="n">abandoned_arm</span><span class="p">)</span>
@@ -545,10 +546,16 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">struct</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">generator_run_structs</span>
             <span class="p">]</span>
-            <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">status_quo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># appease pyre</span>
+            <span class="n">trial_status_quo</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">status_quo</span>
+            <span class="n">trial_status_quo_weight_override</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">_status_quo_weight_override</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">trial_status_quo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">trial_status_quo_weight_override</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">):</span>
                 <span class="n">status_quo_generator_run</span> <span class="o">=</span> <span class="n">GeneratorRun</span><span class="p">(</span>
-                    <span class="n">arms</span><span class="o">=</span><span class="p">[</span><span class="n">trial</span><span class="o">.</span><span class="n">status_quo</span><span class="p">],</span>
-                    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="n">trial</span><span class="o">.</span><span class="n">_status_quo_weight</span><span class="p">],</span>
+                    <span class="n">arms</span><span class="o">=</span><span class="p">[</span><span class="n">trial_status_quo</span><span class="p">],</span>
+                    <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="n">trial_status_quo_weight_override</span><span class="p">],</span>
                     <span class="nb">type</span><span class="o">=</span><span class="n">GeneratorRunType</span><span class="o">.</span><span class="n">STATUS_QUO</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="c1"># this is a hack necessary to get equality tests passing;</span>
@@ -557,7 +564,8 @@ src="/js/documentation_options.js">
                 <span class="n">generator_runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">generator_run_to_sqa</span><span class="p">(</span><span class="n">generator_run</span><span class="o">=</span><span class="n">status_quo_generator_run</span><span class="p">)</span>
                 <span class="p">)</span>
-                <span class="n">status_quo_name</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">status_quo</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">status_quo_name</span> <span class="o">=</span> <span class="n">trial_status_quo</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">optimize_for_power</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">optimize_for_power</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">generator_run</span><span class="p">:</span>
                 <span class="n">generator_runs</span> <span class="o">=</span> <span class="p">[</span>
@@ -575,6 +583,7 @@ src="/js/documentation_options.js">
             <span class="n">index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
             <span class="n">is_batch</span><span class="o">=</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">BatchTrial</span><span class="p">),</span>
             <span class="n">num_arms_created</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">_num_arms_created</span><span class="p">,</span>
+            <span class="n">optimize_for_power</span><span class="o">=</span><span class="n">optimize_for_power</span><span class="p">,</span>
             <span class="n">run_metadata</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">run_metadata</span><span class="p">,</span>
             <span class="n">status</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
             <span class="n">status_quo_name</span><span class="o">=</span><span class="n">status_quo_name</span><span class="p">,</span>

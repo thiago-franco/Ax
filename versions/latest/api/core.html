@@ -586,7 +586,7 @@ a BatchTrial.</p>
 </dd></dl>
 <dl class="class">
 <dt id="ax.core.batch_trial.BatchTrial">
-<em class="property">class </em><code class="sig-prename descclassname">ax.core.batch_trial.</code><code class="sig-name descname">BatchTrial</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">generator_run=None</em>, <em class="sig-param">trial_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/batch_trial.html#BatchTrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.batch_trial.BatchTrial" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ax.core.batch_trial.</code><code class="sig-name descname">BatchTrial</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">generator_run=None</em>, <em class="sig-param">trial_type=None</em>, <em class="sig-param">optimize_for_power=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/batch_trial.html#BatchTrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.batch_trial.BatchTrial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ax.core.base_trial.BaseTrial" title="ax.core.base_trial.BaseTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.core.base_trial.BaseTrial</span></code></a></p>
 <dl class="method">
 <dt id="ax.core.batch_trial.BatchTrial.abandoned_arms">
@@ -755,10 +755,6 @@ possible.</p></li>
 </dl>
 </dd></dl>
 <dl class="method">
-<dt id="ax.core.batch_trial.BatchTrial.reweight_status_quo">
-<code class="sig-name descname">reweight_status_quo</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ax.core.batch_trial.BatchTrial.reweight_status_quo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="method">
 <dt id="ax.core.batch_trial.BatchTrial.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/batch_trial.html#BatchTrial.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.batch_trial.BatchTrial.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deploys the trial according to the behavior on the runner.</p>
@@ -790,6 +786,16 @@ the trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.core.batch_trial.BatchTrial.unset_status_quo">
+<code class="sig-name descname">unset_status_quo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/batch_trial.html#BatchTrial.unset_status_quo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.batch_trial.BatchTrial.unset_status_quo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the status quo to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1167,7 +1173,7 @@ when storage time is known.</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.core.experiment.Experiment.new_batch_trial">
-<code class="sig-name descname">new_batch_trial</code><span class="sig-paren">(</span><em class="sig-param">generator_run=None</em>, <em class="sig-param">trial_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/experiment.html#Experiment.new_batch_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.experiment.Experiment.new_batch_trial" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">new_batch_trial</code><span class="sig-paren">(</span><em class="sig-param">generator_run=None</em>, <em class="sig-param">trial_type=None</em>, <em class="sig-param">optimize_for_power=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/experiment.html#Experiment.new_batch_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.experiment.Experiment.new_batch_trial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new batch trial associated with this experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>

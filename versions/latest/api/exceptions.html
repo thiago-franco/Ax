@@ -28,7 +28,7 @@ src="/js/documentation_options.js">
 <div class="section" id="module-ax.exceptions">
 <span id="ax-exceptions"></span><h1>ax.exceptions<a class="headerlink" href="#module-ax.exceptions" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-ax.exceptions.core">
-<span id="ax-exceptions-core-module"></span><h2>ax.exceptions.core module<a class="headerlink" href="#module-ax.exceptions.core" title="Permalink to this headline">¶</a></h2>
+<span id="core"></span><h2>Core<a class="headerlink" href="#module-ax.exceptions.core" title="Permalink to this headline">¶</a></h2>
 <dl class="exception">
 <dt id="ax.exceptions.core.AxError">
 <em class="property">exception </em><code class="sig-prename descclassname">ax.exceptions.core.</code><code class="sig-name descname">AxError</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">hint=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/exceptions/core.html#AxError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.exceptions.core.AxError" title="Permalink to this definition">¶</a></dt>
@@ -74,19 +74,19 @@ It differs in the following ways:</p>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.exceptions.data_provider">
-<span id="ax-exceptions-data-provider-module"></span><h2>ax.exceptions.data_provider module<a class="headerlink" href="#module-ax.exceptions.data_provider" title="Permalink to this headline">¶</a></h2>
+<span id="data"></span><h2>Data<a class="headerlink" href="#module-ax.exceptions.data_provider" title="Permalink to this headline">¶</a></h2>
 <dl class="exception">
 <dt id="ax.exceptions.data_provider.DataProviderError">
 <em class="property">exception </em><code class="sig-prename descclassname">ax.exceptions.data_provider.</code><code class="sig-name descname">DataProviderError</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">data_provider</em>, <em class="sig-param">data_provider_error</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/exceptions/data_provider.html#DataProviderError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.exceptions.data_provider.DataProviderError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 <p>Base Exception for Ax DataProviders.</p>
-<p>The type of the driver must be included.
+<p>The type of the data provider must be included.
 The raw error is stored in the data_provider_error section,
 and an Ax-friendly message is stored as the actual error message.</p>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.exceptions.model">
-<span id="ax-exceptions-model-module"></span><h2>ax.exceptions.model module<a class="headerlink" href="#module-ax.exceptions.model" title="Permalink to this headline">¶</a></h2>
+<span id="model"></span><h2>Model<a class="headerlink" href="#module-ax.exceptions.model" title="Permalink to this headline">¶</a></h2>
 <dl class="exception">
 <dt id="ax.exceptions.model.ModelError">
 <em class="property">exception </em><code class="sig-prename descclassname">ax.exceptions.model.</code><code class="sig-name descname">ModelError</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">hint=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/exceptions/model.html#ModelError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.exceptions.model.ModelError" title="Permalink to this definition">¶</a></dt>
@@ -95,7 +95,7 @@ and an Ax-friendly message is stored as the actual error message.</p>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.exceptions.storage">
-<span id="ax-exceptions-storage-module"></span><h2>ax.exceptions.storage module<a class="headerlink" href="#module-ax.exceptions.storage" title="Permalink to this headline">¶</a></h2>
+<span id="storage"></span><h2>Storage<a class="headerlink" href="#module-ax.exceptions.storage" title="Permalink to this headline">¶</a></h2>
 <dl class="exception">
 <dt id="ax.exceptions.storage.ImmutabilityError">
 <em class="property">exception </em><code class="sig-prename descclassname">ax.exceptions.storage.</code><code class="sig-name descname">ImmutabilityError</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">hint=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/exceptions/storage.html#ImmutabilityError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.exceptions.storage.ImmutabilityError" title="Permalink to this definition">¶</a></dt>
@@ -140,10 +140,10 @@ and an Ax-friendly message is stored as the actual error message.</p>
 <li class="toctree-l1"><a class="reference internal" href="benchmark.html">ax.benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="core.html">ax.core</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ax.exceptions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.core">ax.exceptions.core module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.data_provider">ax.exceptions.data_provider module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.model">ax.exceptions.model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.storage">ax.exceptions.storage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.core">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.data_provider">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.exceptions.storage">Storage</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="metrics.html">ax.metrics</a></li>

@@ -29,12 +29,35 @@ src="/js/documentation_options.js">
 <span id="ax-models"></span><h1>ax.models<a class="headerlink" href="#module-ax.models" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="base-models">
 <h2>Base Models<a class="headerlink" href="#base-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ax.models.base">
+<span id="ax-models-base"></span><h3>ax.models.base<a class="headerlink" href="#module-ax.models.base" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.models.base.Model">
+<em class="property">class </em><code class="sig-prename descclassname">ax.models.base.</code><code class="sig-name descname">Model</code><a class="reference internal" href="_modules/ax/models/base.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.base.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for an Ax model.</p>
+<p>Note: the core methods each model has: <cite>fit</cite>, <cite>predict</cite>, <cite>gen</cite>,
+<cite>cross_validate</cite>, and <cite>best_point</cite> are not present in this base class,
+because the signatures for those methods vary based on the type of the model.
+This class only contains the methods that all models have in common and for
+which they all share the signature.</p>
+<dl class="method">
+<dt id="ax.models.base.Model.feature_importances">
+<code class="sig-name descname">feature_importances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/base.html#Model.feature_importances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.base.Model.feature_importances" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.models.discrete_base">
 <span id="ax-models-discrete-base-module"></span><h3>ax.models.discrete_base module<a class="headerlink" href="#module-ax.models.discrete_base" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="ax.models.discrete_base.DiscreteModel">
 <em class="property">class </em><code class="sig-prename descclassname">ax.models.discrete_base.</code><code class="sig-name descname">DiscreteModel</code><a class="reference internal" href="_modules/ax/models/discrete_base.html#DiscreteModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.discrete_base.DiscreteModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#ax.models.base.Model" title="ax.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></a></p>
 <p>This class specifies the interface for a model based on discrete parameters.</p>
 <p>These methods should be implemented to have access to all of the features
 of Ax.</p>
@@ -437,7 +460,7 @@ particular value.</p></li>
 <dl class="class">
 <dt id="ax.models.numpy_base.NumpyModel">
 <em class="property">class </em><code class="sig-prename descclassname">ax.models.numpy_base.</code><code class="sig-name descname">NumpyModel</code><a class="reference internal" href="_modules/ax/models/numpy_base.html#NumpyModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.numpy_base.NumpyModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#ax.models.base.Model" title="ax.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></a></p>
 <p>This class specifies the interface for a numpy-based model.</p>
 <p>These methods should be implemented to have access to all of the features
 of Ax.</p>
@@ -620,7 +643,7 @@ in the same format as for <cite>fit</cite>.</p></li>
 <dl class="class">
 <dt id="ax.models.torch_base.TorchModel">
 <em class="property">class </em><code class="sig-prename descclassname">ax.models.torch_base.</code><code class="sig-name descname">TorchModel</code><a class="reference internal" href="_modules/ax/models/torch_base.html#TorchModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch_base.TorchModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#ax.models.base.Model" title="ax.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></a></p>
 <p>This class specifies the interface for a torch-based model.</p>
 <p>These methods should be implemented to have access to all of the features
 of Ax.</p>
@@ -1065,7 +1088,7 @@ parameters.</p></li>
 <dl class="class">
 <dt id="ax.models.random.base.RandomModel">
 <em class="property">class </em><code class="sig-prename descclassname">ax.models.random.base.</code><code class="sig-name descname">RandomModel</code><span class="sig-paren">(</span><em class="sig-param">deduplicate=False</em>, <em class="sig-param">seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/random/base.html#RandomModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.random.base.RandomModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#ax.models.base.Model" title="ax.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.base.Model</span></code></a></p>
 <p>This class specifies the basic skeleton for a random model.</p>
 <p>As random generators do not make use of models, they do not implement
 the fit or predict methods.</p>
@@ -1520,6 +1543,126 @@ in the same format as for <cite>fit</cite>.</p></li>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.models.torch.botorch_defaults">
+<span id="ax-models-torch-botorch-defaults-module"></span><h3>ax.models.torch.botorch_defaults module<a class="headerlink" href="#module-ax.models.torch.botorch_defaults" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ax.models.torch.botorch_defaults.get_NEI">
+<code class="sig-prename descclassname">ax.models.torch.botorch_defaults.</code><code class="sig-name descname">get_NEI</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">objective_weights</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">X_observed=None</em>, <em class="sig-param">X_pending=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch_defaults.html#get_NEI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch_defaults.get_NEI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a qNoisyExpectedImprovement acquisition function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objective_weights</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – The objective is to maximize a weighted sum of
+the columns of f(x). These are the weights.</p></li>
+<li><p><strong>outcome_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]]) – A tuple of (A, b). For k outcome constraints
+and m outputs at f(x), A is (k x m) and b is (k x 1) such that
+A f(x) &lt;= b. (Not used by single task models)</p></li>
+<li><p><strong>X_observed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]) – A tensor containing points observed for all objective
+outcomes and outcomes that appear in the outcome constraints (if
+there are any).</p></li>
+<li><p><strong>X_pending</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]) – A tensor containing points whose evaluation is pending (i.e.
+that have been submitted for evaluation) present for all objective
+outcomes and outcomes that appear in the outcome constraints (if
+there are any).</p></li>
+<li><p><strong>mc_samples</strong> – The number of MC samples to use (default: 512).</p></li>
+<li><p><strong>qmc</strong> – If True, use qMC instead of MC (default: True).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instantiated acquisition function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>qNoisyExpectedImprovement</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.models.torch.botorch_defaults.get_and_fit_model">
+<code class="sig-prename descclassname">ax.models.torch.botorch_defaults.</code><code class="sig-name descname">get_and_fit_model</code><span class="sig-paren">(</span><em class="sig-param">Xs</em>, <em class="sig-param">Ys</em>, <em class="sig-param">Yvars</em>, <em class="sig-param">task_features</em>, <em class="sig-param">fidelity_features</em>, <em class="sig-param">refit_model=True</em>, <em class="sig-param">state_dict=None</em>, <em class="sig-param">fidelity_model_id=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch_defaults.html#get_and_fit_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch_defaults.get_and_fit_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates and fits a botorch ModelListGP using the given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]) – List of X data, one tensor per outcome</p></li>
+<li><p><strong>Ys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]) – List of Y data, one tensor per outcome</p></li>
+<li><p><strong>Yvars</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]) – List of observed variance of Ys.</p></li>
+<li><p><strong>task_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – List of columns of X that are tasks.</p></li>
+<li><p><strong>fidelity_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – List of columns of X that are fidelity parameters.</p></li>
+<li><p><strong>refit_model</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Flag for refitting model.</p></li>
+<li><p><strong>state_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]]) – If provided, will set model parameters to this state
+dictionary. Otherwise, will fit the model.</p></li>
+<li><p><strong>fidelity_model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – set this if you want to use GP models from <cite>model_list</cite>
+defined above. The <cite>SingleTaskGPLTKernel</cite> model uses linear truncated
+kernel; the <cite>SingleTaskMultiFidelityGP</cite> model uses exponential decay
+kernel.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">GPyTorchModel</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A fitted ModelListGP.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.models.torch.botorch_defaults.predict_from_model">
+<code class="sig-prename descclassname">ax.models.torch.botorch_defaults.</code><code class="sig-name descname">predict_from_model</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch_defaults.html#predict_from_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch_defaults.predict_from_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicts outcomes given a model and input tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code>) – A botorch Model.</p></li>
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – A <cite>n x d</cite> tensor of input parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The predicted posterior mean as an <cite>n x o</cite>-dim tensor.
+Tensor: The predicted posterior covariance as a <cite>n x o x o</cite>-dim tensor.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.models.torch.botorch_defaults.scipy_optimizer">
+<code class="sig-prename descclassname">ax.models.torch.botorch_defaults.</code><code class="sig-name descname">scipy_optimizer</code><span class="sig-paren">(</span><em class="sig-param">acq_function</em>, <em class="sig-param">bounds</em>, <em class="sig-param">n</em>, <em class="sig-param">inequality_constraints=None</em>, <em class="sig-param">fixed_features=None</em>, <em class="sig-param">rounding_func=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch_defaults.html#scipy_optimizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch_defaults.scipy_optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimizer using scipy’s minimize module on a numpy-adpator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>acq_function</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AcquisitionFunction</span></code>) – A botorch AcquisitionFunction.</p></li>
+<li><p><strong>bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – A <cite>2 x d</cite>-dim tensor, where <cite>bounds[0]</cite> (<cite>bounds[1]</cite>) are the
+lower (upper) bounds of the feasible hyperrectangle.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The number of candidates to generate.</p></li>
+<li><p><strong>constraints</strong> (<em>inequality</em>) – A list of tuples (indices, coefficients, rhs),
+with each tuple encoding an inequality constraint of the form
+<cite>sum_i (X[indices[i]] * coefficients[i]) &gt;= rhs</cite></p></li>
+<li><p><strong>fixed_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]) – A map {feature_index: value} for features that should
+be fixed to a particular value during generation.</p></li>
+<li><p><strong>rounding_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]]) – A function that rounds an optimization result
+appropriately (i.e., according to <cite>round-trip</cite> transformations).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p>2-element tuple containing</p>
+<ul class="simple">
+<li><p>A <cite>n x d</cite>-dim tensor of generated candidates.</p></li>
+<li><p>In the case of joint optimization, a scalar tensor containing
+the joint acquisition value of the <cite>n</cite> points. In the case of
+sequential optimization, a <cite>n</cite>-dim tensor of conditional acquisition
+values, where <cite>i</cite>-th element is the expected acquisition value
+conditional on having observed candidates <cite>0,1,…,i-1</cite>.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>

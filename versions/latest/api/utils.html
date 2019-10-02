@@ -29,6 +29,30 @@ src="/js/documentation_options.js">
 <span id="ax-utils"></span><h1>ax.utils<a class="headerlink" href="#module-ax.utils" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="common">
 <h2>Common<a class="headerlink" href="#common" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ax.utils.common.docutils">
+<span id="docutils"></span><h3>Docutils<a class="headerlink" href="#module-ax.utils.common.docutils" title="Permalink to this headline">¶</a></h3>
+<p>Support functions for sphinx et. al</p>
+<dl class="function">
+<dt id="ax.utils.common.docutils.copy_doc">
+<code class="sig-prename descclassname">ax.utils.common.docutils.</code><code class="sig-name descname">copy_doc</code><span class="sig-paren">(</span><em class="sig-param">src</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/docutils.html#copy_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.docutils.copy_doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator that copies the docstring of another object</p>
+<p>Since <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> actually loads the python modules to grab the docstrings
+this works with both <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> and the <code class="docutils literal notranslate"><span class="pre">help</span></code> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">Mamal</span><span class="p">):</span>
+
+  <span class="nd">@property</span>
+  <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">Mamal</span><span class="o">.</span><span class="n">is_feline</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">is_feline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">true</span><span class="p">:</span>
+      <span class="o">...</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~_T</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.utils.common.equality">
 <span id="equality"></span><h3>Equality<a class="headerlink" href="#module-ax.utils.common.equality" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
@@ -70,6 +94,63 @@ length, and that one is a subset of the other.</p>
 </dl>
 </dd></dl>
 </div>
+<div class="section" id="module-ax.utils.common.kwargs">
+<span id="kwargs"></span><h3>Kwargs<a class="headerlink" href="#module-ax.utils.common.kwargs" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ax.utils.common.kwargs.consolidate_kwargs">
+<code class="sig-prename descclassname">ax.utils.common.kwargs.</code><code class="sig-name descname">consolidate_kwargs</code><span class="sig-paren">(</span><em class="sig-param">kwargs_iterable</em>, <em class="sig-param">keywords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/kwargs.html#consolidate_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.kwargs.consolidate_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine an iterable of kwargs into a single dict of kwargs, where kwargs
+by duplicate keys that appear later in the iterable get priority over the
+ones that appear earlier and only kwargs referenced in keywords will be
+used. This allows to combine somewhat redundant sets of kwargs, where a
+user-set kwarg, for instance, needs to override a default kwarg.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">consolidate_kwargs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">kwargs_iterable</span><span class="o">=</span><span class="p">[{</span><span class="s1">'a'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">'b'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">:</span> <span class="mi">5</span><span class="p">}],</span>
+<span class="gp">... </span>    <span class="n">keywords</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">{'a': 1, 'b': 3, 'd': 5}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.common.kwargs.get_function_argument_names">
+<code class="sig-prename descclassname">ax.utils.common.kwargs.</code><code class="sig-name descname">get_function_argument_names</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">omit=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/kwargs.html#get_function_argument_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.kwargs.get_function_argument_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract parameter names from function signature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.common.kwargs.get_function_default_arguments">
+<code class="sig-prename descclassname">ax.utils.common.kwargs.</code><code class="sig-name descname">get_function_default_arguments</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/kwargs.html#get_function_default_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.kwargs.get_function_default_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract default arguments from function signature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.common.kwargs.validate_kwarg_typing">
+<code class="sig-prename descclassname">ax.utils.common.kwargs.</code><code class="sig-name descname">validate_kwarg_typing</code><span class="sig-paren">(</span><em class="sig-param">typed_callables</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/kwargs.html#validate_kwarg_typing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.kwargs.validate_kwarg_typing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises a value error if some of the keyword argument types do not match
+the signatures of the specified typed callables.</p>
+<p>Note: this function expects the typed callables to have unique keywords for
+the arguments and will raise an error if repeat keywords are found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.utils.common.logger">
 <span id="logger"></span><h3>Logger<a class="headerlink" href="#module-ax.utils.common.logger" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
@@ -85,29 +166,53 @@ Adds timestamps to logger messages.</p>
 </dl>
 </dd></dl>
 </div>
-<div class="section" id="module-ax.utils.common.docutils">
-<span id="docutils"></span><h3>Docutils<a class="headerlink" href="#module-ax.utils.common.docutils" title="Permalink to this headline">¶</a></h3>
-<p>Support functions for sphinx et. al</p>
+<div class="section" id="module-ax.utils.common.serialization">
+<span id="serialization"></span><h3>Serialization<a class="headerlink" href="#module-ax.utils.common.serialization" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
-<dt id="ax.utils.common.docutils.copy_doc">
-<code class="sig-prename descclassname">ax.utils.common.docutils.</code><code class="sig-name descname">copy_doc</code><span class="sig-paren">(</span><em class="sig-param">src</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/docutils.html#copy_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.docutils.copy_doc" title="Permalink to this definition">¶</a></dt>
-<dd><p>A decorator that copies the docstring of another object</p>
-<p>Since <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> actually loads the python modules to grab the docstrings
-this works with both <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> and the <code class="docutils literal notranslate"><span class="pre">help</span></code> function.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">Mamal</span><span class="p">):</span>
-
-  <span class="nd">@property</span>
-  <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">Mamal</span><span class="o">.</span><span class="n">is_feline</span><span class="p">)</span>
-  <span class="k">def</span> <span class="nf">is_feline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">true</span><span class="p">:</span>
-      <span class="o">...</span>
-</pre></div>
-</div>
+<dt id="ax.utils.common.serialization.named_tuple_to_dict">
+<code class="sig-prename descclassname">ax.utils.common.serialization.</code><code class="sig-name descname">named_tuple_to_dict</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/serialization.html#named_tuple_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.serialization.named_tuple_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively convert NamedTuples to dictionaries.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>~_T</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
+</div>
+<div class="section" id="module-ax.utils.common.testutils">
+<span id="testutils"></span><h3>Testutils<a class="headerlink" href="#module-ax.utils.common.testutils" title="Permalink to this headline">¶</a></h3>
+<p>Support functions for tests</p>
+<dl class="class">
+<dt id="ax.utils.common.testutils.TestCase">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.common.testutils.</code><code class="sig-name descname">TestCase</code><span class="sig-paren">(</span><em class="sig-param">methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/testutils.html#TestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.testutils.TestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">unittest.case.TestCase</span></code></p>
+<p>The base test case for Ax, contains various helper functions to write unittest.</p>
+<dl class="method">
+<dt id="ax.utils.common.testutils.TestCase.assertRaisesOn">
+<code class="sig-name descname">assertRaisesOn</code><span class="sig-paren">(</span><em class="sig-param">exc</em>, <em class="sig-param">line=None</em>, <em class="sig-param">regex=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/testutils.html#TestCase.assertRaisesOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.testutils.TestCase.assertRaisesOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert that an exception is raised on a specific line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ContextManager" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextManager</span></code></a>[<code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.common.testutils.TestCase.silence_stderr">
+<em class="property">static </em><code class="sig-name descname">silence_stderr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/testutils.html#TestCase.silence_stderr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.testutils.TestCase.silence_stderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A context manager that silences stderr for part of a test.</p>
+<p>If any exception passes through this context manager the stderr will be printed,
+otherwise it will be discarded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>[<code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.utils.common.timeutils">
+<span id="timeutils"></span><h3>Timeutils<a class="headerlink" href="#module-ax.utils.common.timeutils" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="module-ax.utils.common.typeutils">
 <span id="typeutils"></span><h3>Typeutils<a class="headerlink" href="#module-ax.utils.common.typeutils" title="Permalink to this headline">¶</a></h3>
@@ -214,6 +319,130 @@ the types in the tuple.</p>
 <dd><p>If <cite>value</cite> is a Numpy int or float, coerce to a Python int or float.
 This is necessary because some of our transforms return Numpy values.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+</div>
+<div class="section" id="measurement">
+<h2>Measurement<a class="headerlink" href="#measurement" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ax.utils.measurement.synthetic_functions">
+<span id="synthetic-functions"></span><h3>Synthetic Functions<a class="headerlink" href="#module-ax.utils.measurement.synthetic_functions" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.utils.measurement.synthetic_functions.Aug_Branin">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">Aug_Branin</code><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#Aug_Branin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.Aug_Branin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="ax.utils.measurement.synthetic_functions.SyntheticFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.utils.measurement.synthetic_functions.SyntheticFunction</span></code></a></p>
+<p>Augmented Branin function (3-dimensional with infinitely many global minima).</p>
+</dd></dl>
+<dl class="class">
+<dt id="ax.utils.measurement.synthetic_functions.Aug_Hartmann6">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">Aug_Hartmann6</code><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#Aug_Hartmann6"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.Aug_Hartmann6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.utils.measurement.synthetic_functions.Hartmann6" title="ax.utils.measurement.synthetic_functions.Hartmann6"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.utils.measurement.synthetic_functions.Hartmann6</span></code></a></p>
+<p>Augmented Hartmann6 function (7-dimensional with 1 global minimum).</p>
+</dd></dl>
+<dl class="class">
+<dt id="ax.utils.measurement.synthetic_functions.Branin">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">Branin</code><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#Branin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.Branin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="ax.utils.measurement.synthetic_functions.SyntheticFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.utils.measurement.synthetic_functions.SyntheticFunction</span></code></a></p>
+<p>Branin function (2-dimensional with 3 global minima).</p>
+</dd></dl>
+<dl class="class">
+<dt id="ax.utils.measurement.synthetic_functions.Hartmann6">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">Hartmann6</code><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#Hartmann6"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.Hartmann6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="ax.utils.measurement.synthetic_functions.SyntheticFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.utils.measurement.synthetic_functions.SyntheticFunction</span></code></a></p>
+<p>Hartmann6 function (6-dimensional with 1 global minimum).</p>
+</dd></dl>
+<dl class="class">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">SyntheticFunction</code><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#SyntheticFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.domain">
+<em class="property">property </em><code class="sig-name descname">domain</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.domain" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.f">
+<code class="sig-name descname">f</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#SyntheticFunction.f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthetic function implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – an n by d array, where n represents the number
+of observations and d is the dimensionality of the inputs.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an n-dimensional array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.fmax">
+<em class="property">property </em><code class="sig-name descname">fmax</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.fmax" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.fmin">
+<em class="property">property </em><code class="sig-name descname">fmin</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.fmin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.maximums">
+<em class="property">property </em><code class="sig-name descname">maximums</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.maximums" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.minimums">
+<em class="property">property </em><code class="sig-name descname">minimums</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.minimums" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.SyntheticFunction.required_dimensionality">
+<em class="property">property </em><code class="sig-name descname">required_dimensionality</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction.required_dimensionality" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.measurement.synthetic_functions.informative_failure_on_none">
+<code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">informative_failure_on_none</code><span class="sig-paren">(</span><em class="sig-param">func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#informative_failure_on_none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.informative_failure_on_none" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
 </dd>
@@ -575,6 +804,1023 @@ the square root of the total number of observations.</p>
 </dd></dl>
 </div>
 </div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ax.utils.testing.core_stubs">
+<span id="core-stubs"></span><h3>Core Stubs<a class="headerlink" href="#module-ax.utils.testing.core_stubs" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_abandoned_arm">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_abandoned_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_abandoned_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_abandoned_arm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.batch_trial.AbandonedArm" title="ax.core.batch_trial.AbandonedArm"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbandonedArm</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_arm">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_arm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_arm_weights1">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_arm_weights1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_arm_weights1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_arm_weights1" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.MutableMapping" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a>[<a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_arm_weights2">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_arm_weights2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_arm_weights2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_arm_weights2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.MutableMapping" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a>[<a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_arms">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_arms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_arms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_arms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_arms_from_dict">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_arms_from_dict</code><span class="sig-paren">(</span><em class="sig-param">arm_weights_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_arms_from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_arms_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_batch_trial">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_batch_trial</code><span class="sig-paren">(</span><em class="sig-param">abandon_arm=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_batch_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_batch_trial" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.batch_trial.BatchTrial" title="ax.core.batch_trial.BatchTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTrial</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_batch_trial_with_repeated_arms">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_batch_trial_with_repeated_arms</code><span class="sig-paren">(</span><em class="sig-param">num_repeated_arms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_batch_trial_with_repeated_arms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_batch_trial_with_repeated_arms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a batch that contains both new arms and N arms from the last
+existed trial in the experiment. Where N is equal to the input argument
+‘num_repeated_arms’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.batch_trial.BatchTrial" title="ax.core.batch_trial.BatchTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTrial</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_arms">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_arms</code><span class="sig-paren">(</span><em class="sig-param">n</em>, <em class="sig-param">seed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_arms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_arms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_data">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_experiment">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_experiment</code><span class="sig-paren">(</span><em class="sig-param">has_optimization_config=True</em>, <em class="sig-param">with_batch=False</em>, <em class="sig-param">with_status_quo=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_metric">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_metric</code><span class="sig-paren">(</span><em class="sig-param">name='branin'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_metric" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#ax.metrics.branin.BraninMetric" title="ax.metrics.branin.BraninMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BraninMetric</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_objective">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_objective</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_objective" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.objective.Objective" title="ax.core.objective.Objective"><code class="xref py py-class docutils literal notranslate"><span class="pre">Objective</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_optimization_config">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_optimization_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_optimization_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_optimization_config" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_outcome_constraint">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_outcome_constraint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_outcome_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_outcome_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.outcome_constraint.OutcomeConstraint" title="ax.core.outcome_constraint.OutcomeConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutcomeConstraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_branin_search_space">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_branin_search_space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_branin_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_branin_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_choice_parameter">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_choice_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_choice_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_choice_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter.ChoiceParameter" title="ax.core.parameter.ChoiceParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChoiceParameter</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_data">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_experiment">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_experiment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_experiment_with_batch_and_single_trial">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_experiment_with_batch_and_single_trial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_experiment_with_batch_and_single_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_experiment_with_batch_and_single_trial" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_experiment_with_batch_trial">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_experiment_with_batch_trial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_experiment_with_batch_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_experiment_with_batch_trial" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_experiment_with_data">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_experiment_with_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_experiment_with_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_experiment_with_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_experiment_with_repeated_arms">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_experiment_with_repeated_arms</code><span class="sig-paren">(</span><em class="sig-param">num_repeated_arms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_experiment_with_repeated_arms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_experiment_with_repeated_arms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_factorial_experiment">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_factorial_experiment</code><span class="sig-paren">(</span><em class="sig-param">has_optimization_config=True</em>, <em class="sig-param">with_batch=False</em>, <em class="sig-param">with_status_quo=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_factorial_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_factorial_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_factorial_metric">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_factorial_metric</code><span class="sig-paren">(</span><em class="sig-param">name='success_metric'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_factorial_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_factorial_metric" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#ax.metrics.factorial.FactorialMetric" title="ax.metrics.factorial.FactorialMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">FactorialMetric</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_factorial_search_space">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_factorial_search_space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_factorial_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_factorial_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_fixed_parameter">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_fixed_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_fixed_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_fixed_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter.FixedParameter" title="ax.core.parameter.FixedParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FixedParameter</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_generator_run">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_generator_run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_generator_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_generator_run" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.generator_run.GeneratorRun" title="ax.core.generator_run.GeneratorRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneratorRun</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_generator_run2">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_generator_run2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_generator_run2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_generator_run2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.generator_run.GeneratorRun" title="ax.core.generator_run.GeneratorRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneratorRun</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_hartmann_metric">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_hartmann_metric</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_hartmann_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_hartmann_metric" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="metrics.html#ax.metrics.hartmann6.Hartmann6Metric" title="ax.metrics.hartmann6.Hartmann6Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Hartmann6Metric</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_metric">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_metric</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_metric" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.metric.Metric" title="ax.core.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_model_covariance">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_model_covariance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_model_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_model_covariance" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_model_mean">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_model_mean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_model_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_model_mean" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_model_predictions">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_model_predictions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_model_predictions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_model_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_model_predictions_per_arm">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_model_predictions_per_arm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_model_predictions_per_arm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_model_predictions_per_arm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_multi_type_experiment">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_multi_type_experiment</code><span class="sig-paren">(</span><em class="sig-param">add_trial_type=True</em>, <em class="sig-param">add_trials=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_multi_type_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_multi_type_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.multi_type_experiment.MultiTypeExperiment" title="ax.core.multi_type_experiment.MultiTypeExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiTypeExperiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_objective">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_objective</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_objective" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.objective.Objective" title="ax.core.objective.Objective"><code class="xref py py-class docutils literal notranslate"><span class="pre">Objective</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_optimization_config">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_optimization_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_optimization_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_optimization_config" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_optimization_config_no_constraints">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_optimization_config_no_constraints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_optimization_config_no_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_optimization_config_no_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_order_constraint">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_order_constraint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_order_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_order_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter_constraint.OrderConstraint" title="ax.core.parameter_constraint.OrderConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">OrderConstraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_outcome_constraint">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_outcome_constraint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_outcome_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_outcome_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.outcome_constraint.OutcomeConstraint" title="ax.core.outcome_constraint.OutcomeConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutcomeConstraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_parameter_constraint">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_parameter_constraint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_parameter_constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_parameter_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter_constraint.ParameterConstraint" title="ax.core.parameter_constraint.ParameterConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterConstraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_range_parameter">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_range_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_range_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_range_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter.RangeParameter" title="ax.core.parameter.RangeParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeParameter</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_range_parameter2">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_range_parameter2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_range_parameter2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_range_parameter2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter.RangeParameter" title="ax.core.parameter.RangeParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeParameter</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_search_space">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_search_space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_search_space_for_range_value">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_search_space_for_range_value</code><span class="sig-paren">(</span><em class="sig-param">min=3.0</em>, <em class="sig-param">max=6.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_search_space_for_range_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_search_space_for_range_value" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_search_space_for_range_values">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_search_space_for_range_values</code><span class="sig-paren">(</span><em class="sig-param">min=3.0</em>, <em class="sig-param">max=6.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_search_space_for_range_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_search_space_for_range_values" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_search_space_for_value">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_search_space_for_value</code><span class="sig-paren">(</span><em class="sig-param">val=3.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_search_space_for_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_search_space_for_value" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_simple_experiment">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_simple_experiment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_simple_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_simple_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.simple_experiment.SimpleExperiment" title="ax.core.simple_experiment.SimpleExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleExperiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_simple_experiment_with_batch_trial">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_simple_experiment_with_batch_trial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_simple_experiment_with_batch_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_simple_experiment_with_batch_trial" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.simple_experiment.SimpleExperiment" title="ax.core.simple_experiment.SimpleExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleExperiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_status_quo">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_status_quo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_status_quo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_status_quo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.arm.Arm" title="ax.core.arm.Arm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arm</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_sum_constraint1">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_sum_constraint1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_sum_constraint1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_sum_constraint1" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter_constraint.SumConstraint" title="ax.core.parameter_constraint.SumConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumConstraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_sum_constraint2">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_sum_constraint2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_sum_constraint2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_sum_constraint2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter_constraint.SumConstraint" title="ax.core.parameter_constraint.SumConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumConstraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_synthetic_runner">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_synthetic_runner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_synthetic_runner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_synthetic_runner" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="runners.html#ax.runners.synthetic.SyntheticRunner" title="ax.runners.synthetic.SyntheticRunner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SyntheticRunner</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_trial">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_trial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_trial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_trial" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.trial.Trial" title="ax.core.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_weights">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_weights" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_weights_from_dict">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_weights_from_dict</code><span class="sig-paren">(</span><em class="sig-param">arm_weights_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_weights_from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_weights_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.utils.testing.modeling_stubs">
+<span id="modeling-stubs"></span><h3>Modeling Stubs<a class="headerlink" href="#module-ax.utils.testing.modeling_stubs" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_experiment_for_value">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_experiment_for_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_experiment_for_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_experiment_for_value" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_generation_strategy">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_generation_strategy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_generation_strategy" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation1">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation1" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation1trans">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation1trans</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation1trans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation1trans" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation2">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation2trans">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation2trans</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation2trans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation2trans" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation_status_quo0">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation_status_quo0</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation_status_quo0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation_status_quo0" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_observation_status_quo1">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_observation_status_quo1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_observation_status_quo1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_observation_status_quo1" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.modeling_stubs.get_transform_type">
+<code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">get_transform_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#get_transform_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.get_transform_type" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference internal" href="modelbridge.html#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transform</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="class">
+<dt id="ax.utils.testing.modeling_stubs.transform_1">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">transform_1</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="modelbridge.html#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_1.transform_observation_data">
+<code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1.transform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<p>This takes in observation_features, so that data transforms can be
+conditional on features, but observation_features are notmutated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]) – Observation data</p></li>
+<li><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Corresponding observation features</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: transformed observation data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_1.transform_observation_features">
+<code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1.transform_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Observation features</p>
+</dd>
+</dl>
+<p>Returns: transformed observation features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_1.transform_optimization_config">
+<code class="sig-name descname">transform_optimization_config</code><span class="sig-paren">(</span><em class="sig-param">optimization_config</em>, <em class="sig-param">modelbridge</em>, <em class="sig-param">fixed_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1.transform_optimization_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1.transform_optimization_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform optimization config.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>optimization_config</strong> (<a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a>) – The optimization config</p>
+</dd>
+</dl>
+<p>Returns: transformed optimization config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_1.transform_search_space">
+<code class="sig-name descname">transform_search_space</code><span class="sig-paren">(</span><em class="sig-param">search_space</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1.transform_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1.transform_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform search space.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a>) – The search space</p>
+</dd>
+</dl>
+<p>Returns: transformed search space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_1.untransform_observation_data">
+<code class="sig-name descname">untransform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1.untransform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1.untransform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untransform observation data.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]) – Observation data, in transformed space</p></li>
+<li><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Corresponding observation features, in same
+space.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: observation data in original space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_1.untransform_observation_features">
+<code class="sig-name descname">untransform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_1.untransform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_1.untransform_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untransform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Observation features in the transformed space</p>
+</dd>
+</dl>
+<p>Returns: observation features in the original space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="class">
+<dt id="ax.utils.testing.modeling_stubs.transform_2">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.testing.modeling_stubs.</code><code class="sig-name descname">transform_2</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="modelbridge.html#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_2.transform_observation_data">
+<code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2.transform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<p>This takes in observation_features, so that data transforms can be
+conditional on features, but observation_features are notmutated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]) – Observation data</p></li>
+<li><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Corresponding observation features</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: transformed observation data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_2.transform_observation_features">
+<code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2.transform_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Observation features</p>
+</dd>
+</dl>
+<p>Returns: transformed observation features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_2.transform_optimization_config">
+<code class="sig-name descname">transform_optimization_config</code><span class="sig-paren">(</span><em class="sig-param">optimization_config</em>, <em class="sig-param">modelbridge</em>, <em class="sig-param">fixed_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2.transform_optimization_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2.transform_optimization_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform optimization config.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>optimization_config</strong> (<a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a>) – The optimization config</p>
+</dd>
+</dl>
+<p>Returns: transformed optimization config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_2.transform_search_space">
+<code class="sig-name descname">transform_search_space</code><span class="sig-paren">(</span><em class="sig-param">search_space</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2.transform_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2.transform_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform search space.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a>) – The search space</p>
+</dd>
+</dl>
+<p>Returns: transformed search space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_2.untransform_observation_data">
+<code class="sig-name descname">untransform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2.untransform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2.untransform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untransform observation data.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]) – Observation data, in transformed space</p></li>
+<li><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Corresponding observation features, in same
+space.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: observation data in original space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.utils.testing.modeling_stubs.transform_2.untransform_observation_features">
+<code class="sig-name descname">untransform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/modeling_stubs.html#transform_2.untransform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.modeling_stubs.transform_2.untransform_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untransform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Observation features in the transformed space</p>
+</dd>
+</dl>
+<p>Returns: observation features in the original space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+<div class="section" id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ax.utils.tutorials.cnn_utils">
+<span id="neural-net"></span><h3>Neural Net<a class="headerlink" href="#module-ax.utils.tutorials.cnn_utils" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.utils.tutorials.cnn_utils.CNN">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.tutorials.cnn_utils.</code><code class="sig-name descname">CNN</code><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#CNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.CNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Convolutional Neural Network.</p>
+<dl class="method">
+<dt id="ax.utils.tutorials.cnn_utils.CNN.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#CNN.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.CNN.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.tutorials.cnn_utils.evaluate">
+<code class="sig-prename descclassname">ax.utils.tutorials.cnn_utils.</code><code class="sig-name descname">evaluate</code><span class="sig-paren">(</span><em class="sig-param">net</em>, <em class="sig-param">data_loader</em>, <em class="sig-param">dtype</em>, <em class="sig-param">device</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute classification accuracy on provided dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code>) – trained model</p></li>
+<li><p><strong>data_loader</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code>) – DataLoader containing the evaluation set</p></li>
+<li><p><strong>dtype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>) – torch dtype</p></li>
+<li><p><strong>device</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">device</span></code>) – torch device</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>classification accuracy</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.tutorials.cnn_utils.get_partition_data_loaders">
+<code class="sig-prename descclassname">ax.utils.tutorials.cnn_utils.</code><code class="sig-name descname">get_partition_data_loaders</code><span class="sig-paren">(</span><em class="sig-param">train_valid_set</em>, <em class="sig-param">test_set</em>, <em class="sig-param">downsample_pct=0.5</em>, <em class="sig-param">train_pct=0.8</em>, <em class="sig-param">batch_size=128</em>, <em class="sig-param">num_workers=0</em>, <em class="sig-param">deterministic_partitions=False</em>, <em class="sig-param">downsample_pct_test=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#get_partition_data_loaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.get_partition_data_loaders" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Helper function for partitioning training data into training and validation sets,</dt><dd><p>downsampling data, and initializing DataLoaders for each partition.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_valid_set</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code>) – torch.dataset</p></li>
+<li><p><strong>downsample_pct</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – the proportion of the dataset to use for training, and
+validation</p></li>
+<li><p><strong>train_pct</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – the proportion of the downsampled data to use for training</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – how many samples per batch to load</p></li>
+<li><p><strong>num_workers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – number of workers (subprocesses) for loading data</p></li>
+<li><p><strong>deterministic_partitions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether to partition data in a deterministic
+fashion</p></li>
+<li><p><strong>downsample_pct_test</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – the proportion of the dataset to use for test, default
+to be equal to downsample_pct</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>training data
+DataLoader: validation data
+DataLoader: test data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataLoader</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.tutorials.cnn_utils.load_mnist">
+<code class="sig-prename descclassname">ax.utils.tutorials.cnn_utils.</code><code class="sig-name descname">load_mnist</code><span class="sig-paren">(</span><em class="sig-param">downsample_pct=0.5</em>, <em class="sig-param">train_pct=0.8</em>, <em class="sig-param">data_path='./data'</em>, <em class="sig-param">batch_size=128</em>, <em class="sig-param">num_workers=0</em>, <em class="sig-param">deterministic_partitions=False</em>, <em class="sig-param">downsample_pct_test=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#load_mnist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.load_mnist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Load MNIST dataset (download if necessary) and split data into training,</dt><dd><p>validation, and test sets.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>downsample_pct</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – the proportion of the dataset to use for training,
+validation, and test</p></li>
+<li><p><strong>train_pct</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – the proportion of the downsampled data to use for training</p></li>
+<li><p><strong>data_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Root directory of dataset where <cite>MNIST/processed/training.pt</cite>
+and <cite>MNIST/processed/test.pt</cite> exist.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – how many samples per batch to load</p></li>
+<li><p><strong>num_workers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – number of workers (subprocesses) for loading data</p></li>
+<li><p><strong>deterministic_partitions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether to partition data in a deterministic
+fashion</p></li>
+<li><p><strong>downsample_pct_test</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – the proportion of the dataset to use for test, default
+to be equal to downsample_pct</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>training data
+DataLoader: validation data
+DataLoader: test data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataLoader</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.tutorials.cnn_utils.split_dataset">
+<code class="sig-prename descclassname">ax.utils.tutorials.cnn_utils.</code><code class="sig-name descname">split_dataset</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">lengths</em>, <em class="sig-param">deterministic_partitions=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#split_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.split_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split a dataset either randomly or deterministically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code>) – the dataset to split</p></li>
+<li><p><strong>lengths</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the lengths of each partition</p></li>
+<li><p><strong>deterministic_partitions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – deterministic_partitions: whether to partition
+data in a deterministic fashion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>split datasets</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[Dataset]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.tutorials.cnn_utils.train">
+<code class="sig-prename descclassname">ax.utils.tutorials.cnn_utils.</code><code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param">net</em>, <em class="sig-param">train_loader</em>, <em class="sig-param">parameters</em>, <em class="sig-param">dtype</em>, <em class="sig-param">device</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/tutorials/cnn_utils.html#train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.tutorials.cnn_utils.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train CNN on provided data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code>) – initialized neural network</p></li>
+<li><p><strong>train_loader</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code>) – DataLoader containing training set</p></li>
+<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – dictionary containing parameters to be passed to the optimizer.
+- lr: default (0.001)
+- momentum: default (0.0)
+- weight_decay: default (0.0)
+- num_epochs: default (1)</p></li>
+<li><p><strong>dtype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>) – torch dtype</p></li>
+<li><p><strong>device</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">device</span></code>) – torch device</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>trained CNN.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nn.Module</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -597,9 +1843,12 @@ the square root of the total number of observations.</p>
 <li class="toctree-l1"><a class="reference internal" href="storage.html">ax.storage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ax.utils</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#common">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#measurement">Measurement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#notebook">Notebook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#report">Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stats">Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorials">Tutorials</a></li>
 </ul>
 </li>
 </ul>

@@ -115,7 +115,7 @@ src="/js/documentation_options.js">
 <span class="p">]</span>
 
 
-<span class="k">class</span> <span class="nc">ModelSetup</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="ModelSetup"><a class="viewcode-back" href="../../../modelbridge.html#ax.ModelSetup">[docs]</a><span class="k">class</span> <span class="nc">ModelSetup</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="sd">"""A model setup defines a coupled combination of a model, a model bridge,</span>
 <span class="sd">    standard set of transforms, and standard model bridge keyword arguments.</span>
 <span class="sd">    This coupled combination yields a given standard modeling strategy in Ax,</span>
@@ -125,7 +125,7 @@ src="/js/documentation_options.js">
     <span class="n">bridge_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">ModelBridge</span><span class="p">]</span>
     <span class="n">model_class</span><span class="p">:</span> <span class="n">Any</span>
     <span class="n">transforms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Transform</span><span class="p">]]</span>
-    <span class="n">standard_bridge_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">standard_bridge_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 <span class="sd">"""A mapping of string keys that indicate a model, to the corresponding</span>
@@ -179,7 +179,7 @@ src="/js/documentation_options.js">
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="Models"><a class="viewcode-back" href="../../../ax.html#ax.Models">[docs]</a><span class="k">class</span> <span class="nc">Models</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>  <span class="c1"># String enum.</span>
+<div class="viewcode-block" id="Models"><a class="viewcode-back" href="../../../modelbridge.html#ax.Models">[docs]</a><span class="k">class</span> <span class="nc">Models</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>  <span class="c1"># String enum.</span>
     <span class="sd">"""Registry of available models.</span>
 
 <span class="sd">    Uses MODEL_KEY_TO_MODEL_SETUP to retrieve settings for model and model bridge,</span>
@@ -271,7 +271,7 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">model_bridge</span>
 
-<div class="viewcode-block" id="Models.view_defaults"><a class="viewcode-back" href="../../../ax.html#ax.Models.view_defaults">[docs]</a>    <span class="k">def</span> <span class="nf">view_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Models.view_defaults"><a class="viewcode-back" href="../../../modelbridge.html#ax.Models.view_defaults">[docs]</a>    <span class="k">def</span> <span class="nf">view_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
         <span class="sd">"""Obtains the default keyword arguments for the model and the modelbridge</span>
 <span class="sd">        specified through the Models enum, for ease of use in notebook environment,</span>
 <span class="sd">        since models and bridges cannot be inspected directly through the enum.</span>
@@ -285,7 +285,7 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_bridge_kwargs</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">model_setup_info</span><span class="p">),</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Models.view_kwargs"><a class="viewcode-back" href="../../../ax.html#ax.Models.view_kwargs">[docs]</a>    <span class="k">def</span> <span class="nf">view_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Models.view_kwargs"><a class="viewcode-back" href="../../../modelbridge.html#ax.Models.view_kwargs">[docs]</a>    <span class="k">def</span> <span class="nf">view_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
         <span class="sd">"""Obtains annotated keyword arguments that the model and the modelbridge</span>
 <span class="sd">        (corresponding to a given member of the Models enum) constructors expect.</span>
 

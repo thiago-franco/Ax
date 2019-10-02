@@ -627,7 +627,9 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="Decoder.trial_from_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.decoder.Decoder.trial_from_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">trial_from_sqa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_sqa</span><span class="p">:</span> <span class="n">SQATrial</span><span class="p">,</span> <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseTrial</span><span class="p">:</span>
         <span class="sd">"""Convert SQLAlchemy Trial to Ax Trial."""</span>
         <span class="k">if</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">is_batch</span><span class="p">:</span>
-            <span class="n">trial</span> <span class="o">=</span> <span class="n">BatchTrial</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">)</span>
+            <span class="n">trial</span> <span class="o">=</span> <span class="n">BatchTrial</span><span class="p">(</span>
+                <span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">optimize_for_power</span><span class="o">=</span><span class="n">trial_sqa</span><span class="o">.</span><span class="n">optimize_for_power</span>
+            <span class="p">)</span>
             <span class="n">generator_run_structs</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">GeneratorRunStruct</span><span class="p">(</span>
                     <span class="n">generator_run</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generator_run_from_sqa</span><span class="p">(</span>
@@ -644,8 +646,9 @@ src="/js/documentation_options.js">
                         <span class="n">struct</span><span class="o">.</span><span class="n">generator_run</span><span class="o">.</span><span class="n">generator_run_type</span>
                         <span class="o">==</span> <span class="n">GeneratorRunType</span><span class="o">.</span><span class="n">STATUS_QUO</span><span class="o">.</span><span class="n">name</span>
                     <span class="p">):</span>
+                        <span class="n">status_quo_weight</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">generator_run</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                         <span class="n">trial</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">generator_run</span><span class="o">.</span><span class="n">arms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="n">trial</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">generator_run</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">trial</span><span class="o">.</span><span class="n">_status_quo_weight_override</span> <span class="o">=</span> <span class="n">status_quo_weight</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">new_generator_run_structs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
                 <span class="n">generator_run_structs</span> <span class="o">=</span> <span class="n">new_generator_run_structs</span>

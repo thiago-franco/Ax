@@ -27,10 +27,10 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <div class="section" id="module-ax.modelbridge">
 <span id="ax-modelbridge"></span><h1>ax.modelbridge<a class="headerlink" href="#module-ax.modelbridge" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="factory-and-generation-strategy">
-<h2>Factory and Generation Strategy<a class="headerlink" href="#factory-and-generation-strategy" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generation-strategy-registry-and-factory">
+<h2>Generation Strategy, Registry, and Factory<a class="headerlink" href="#generation-strategy-registry-and-factory" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="module-ax.modelbridge.generation_strategy">
-<span id="generationstrategy"></span><h3><cite>GenerationStrategy</cite><a class="headerlink" href="#module-ax.modelbridge.generation_strategy" title="Permalink to this headline">¶</a></h3>
+<span id="generation-strategy"></span><h3>Generation Strategy<a class="headerlink" href="#module-ax.modelbridge.generation_strategy" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="ax.modelbridge.generation_strategy.GenerationStep">
 <em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.generation_strategy.</code><code class="sig-name descname">GenerationStep</code><a class="reference internal" href="_modules/ax/modelbridge/generation_strategy.html#GenerationStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep" title="Permalink to this definition">¶</a></dt>
@@ -177,8 +177,119 @@ run, with the given experiment and the data to initialize the model with.</p>
 </dl>
 </dd></dl>
 </div>
+<div class="section" id="module-ax.modelbridge.registry">
+<span id="registry"></span><h3>Registry<a class="headerlink" href="#module-ax.modelbridge.registry" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.modelbridge.registry.ModelSetup">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">ModelSetup</code><a class="reference internal" href="_modules/ax/modelbridge/registry.html#ModelSetup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.ModelSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+<p>A model setup defines a coupled combination of a model, a model bridge,
+standard set of transforms, and standard model bridge keyword arguments.
+This coupled combination yields a given standard modeling strategy in Ax,
+such as BoTorch GP+EI, a Thompson sampler, or a Sobol quasirandom generator.</p>
+<dl class="method">
+<dt id="ax.modelbridge.registry.ModelSetup.bridge_class">
+<em class="property">property </em><code class="sig-name descname">bridge_class</code><a class="headerlink" href="#ax.modelbridge.registry.ModelSetup.bridge_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.registry.ModelSetup.model_class">
+<em class="property">property </em><code class="sig-name descname">model_class</code><a class="headerlink" href="#ax.modelbridge.registry.ModelSetup.model_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.registry.ModelSetup.standard_bridge_kwargs">
+<em class="property">property </em><code class="sig-name descname">standard_bridge_kwargs</code><a class="headerlink" href="#ax.modelbridge.registry.ModelSetup.standard_bridge_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.registry.ModelSetup.transforms">
+<em class="property">property </em><code class="sig-name descname">transforms</code><a class="headerlink" href="#ax.modelbridge.registry.ModelSetup.transforms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+</dd></dl>
+<dl class="class">
+<dt id="ax.modelbridge.registry.Models">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">Models</code><a class="reference internal" href="_modules/ax/modelbridge/registry.html#Models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.Models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Registry of available models.</p>
+<p>Uses MODEL_KEY_TO_MODEL_SETUP to retrieve settings for model and model bridge,
+by the key stored in the enum value.</p>
+<p>To instantiate a model in this enum, simply call an enum member like so:
+<cite>Models.SOBOL(search_space=search_space)</cite> or
+<cite>Models.GPEI(experiment=experiment, data=data])</cite>. Keyword arguments
+specified to the call will be passed into the model or the model bridge
+constructors according to their keyword.</p>
+<p>For instance, <cite>Models.SOBOL(search_space=search_space, scramble=False)</cite>
+will instantiate a <cite>RandomModelBridge(search_space=search_space)</cite>
+with a <cite>SobolGenerator(scramble=False)</cite> underlying model.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.BOTORCH">
+<code class="sig-name descname">BOTORCH</code><em class="property"> = 'BO'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.BOTORCH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.EMPIRICAL_BAYES_THOMPSON">
+<code class="sig-name descname">EMPIRICAL_BAYES_THOMPSON</code><em class="property"> = 'EB'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.EMPIRICAL_BAYES_THOMPSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.FACTORIAL">
+<code class="sig-name descname">FACTORIAL</code><em class="property"> = 'Factorial'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.FACTORIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.GPEI">
+<code class="sig-name descname">GPEI</code><em class="property"> = 'GPEI'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.GPEI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.SOBOL">
+<code class="sig-name descname">SOBOL</code><em class="property"> = 'Sobol'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.SOBOL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.THOMPSON">
+<code class="sig-name descname">THOMPSON</code><em class="property"> = 'Thompson'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.THOMPSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.UNIFORM">
+<code class="sig-name descname">UNIFORM</code><em class="property"> = 'Uniform'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.UNIFORM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.registry.Models.view_defaults">
+<code class="sig-name descname">view_defaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/registry.html#Models.view_defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.Models.view_defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains the default keyword arguments for the model and the modelbridge
+specified through the Models enum, for ease of use in notebook environment,
+since models and bridges cannot be inspected directly through the enum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of default keyword arguments for the model and the model bridge.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.registry.Models.view_kwargs">
+<code class="sig-name descname">view_kwargs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/registry.html#Models.view_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.Models.view_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains annotated keyword arguments that the model and the modelbridge
+(corresponding to a given member of the Models enum) constructors expect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of annotated keyword arguments for the model and the model bridge.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="data">
+<dt id="ax.modelbridge.registry.logger">
+<code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ax.modelbridge.registry (INFO)&gt;</em><a class="headerlink" href="#ax.modelbridge.registry.logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Module containing a registry of standard models (and generators, samplers etc.)
+such as Sobol generator, GP+EI, Thompson sampler, etc.</p>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.modelbridge.factory">
-<span id="model-bridge-factory"></span><h3>Model Bridge Factory<a class="headerlink" href="#module-ax.modelbridge.factory" title="Permalink to this headline">¶</a></h3>
+<span id="factory"></span><h3>Factory<a class="headerlink" href="#module-ax.modelbridge.factory" title="Permalink to this headline">¶</a></h3>
 <dl class="data">
 <dt id="ax.modelbridge.factory.DEFAULT_TORCH_DEVICE">
 <code class="sig-prename descclassname">ax.modelbridge.factory.</code><code class="sig-name descname">DEFAULT_TORCH_DEVICE</code><em class="property"> = device(type='cpu')</em><a class="headerlink" href="#ax.modelbridge.factory.DEFAULT_TORCH_DEVICE" title="Permalink to this definition">¶</a></dt>
@@ -255,7 +366,7 @@ Otherwise, the model will be a Single-type Multi-task GP.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomModelBridge</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="#ax.modelbridge.random.RandomModelBridge" title="ax.modelbridge.random.RandomModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomModelBridge</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>RandomModelBridge, with SobolGenerator as model.</p>
@@ -284,7 +395,7 @@ Otherwise, the model will be a Single-type Multi-task GP.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomModelBridge</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="#ax.modelbridge.random.RandomModelBridge" title="ax.modelbridge.random.RandomModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomModelBridge</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>RandomModelBridge, with UniformGenerator as model.</p>
@@ -637,6 +748,48 @@ multiplied by the minimize flag.</p>
 or FixedParameters with float type and no log scale.</p>
 </dd></dl>
 </div>
+<div class="section" id="module-ax.modelbridge.random">
+<span id="random-model-bridge"></span><h3>Random Model Bridge<a class="headerlink" href="#module-ax.modelbridge.random" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.modelbridge.random.RandomModelBridge">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.random.</code><code class="sig-name descname">RandomModelBridge</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">model</em>, <em class="sig-param">transforms=None</em>, <em class="sig-param">experiment=None</em>, <em class="sig-param">data=None</em>, <em class="sig-param">transform_configs=None</em>, <em class="sig-param">status_quo_name=None</em>, <em class="sig-param">status_quo_features=None</em>, <em class="sig-param">optimization_config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/random.html#RandomModelBridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.random.RandomModelBridge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.base.ModelBridge</span></code></a></p>
+<p>A model bridge for using purely random ‘models’.
+Data and optimization configs are not required.</p>
+<p>This model bridge interfaces with RandomModel.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.random.RandomModelBridge.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#ax.modelbridge.random.RandomModelBridge.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>A RandomModel used to generate candidates
+(note: this an awkward use of the word ‘model’).</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.random.RandomModelBridge.parameters">
+<code class="sig-name descname">parameters</code><a class="headerlink" href="#ax.modelbridge.random.RandomModelBridge.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Params found in search space on modelbridge init.</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.random.RandomModelBridge.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/random.html#RandomModelBridge.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.random.RandomModelBridge.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the model bridge and the underlying model with new data. This
+method should be used instead of <cite>fit</cite>, in cases where the underlying
+model does not need to be re-fit from scratch, but rather updated.</p>
+<p>Note: <cite>update</cite> expects only new data (obtained since the model initialization
+or last update) to be passed in, not all data in the experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="core.html#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – data from the experiment obtained since the last update</p></li>
+<li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – experiment, in which this data was obtained</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.modelbridge.torch">
 <span id="torch-model-bridge"></span><h3>Torch Model Bridge<a class="headerlink" href="#module-ax.modelbridge.torch" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
@@ -656,6 +809,127 @@ them to the model.</p>
 </div>
 <div class="section" id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ax.modelbridge.modelbridge_utils">
+<span id="general-utilities"></span><h3>General Utilities<a class="headerlink" href="#module-ax.modelbridge.modelbridge_utils" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.extract_parameter_constraints">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">extract_parameter_constraints</code><span class="sig-paren">(</span><em class="sig-param">parameter_constraints</em>, <em class="sig-param">param_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#extract_parameter_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.extract_parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract parameter constraints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.get_bounds_and_task">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">get_bounds_and_task</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">param_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#get_bounds_and_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.get_bounds_and_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract box bounds from a search space in the usual Scipy format.
+Identify integer parameters as task features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.get_fixed_features">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">get_fixed_features</code><span class="sig-paren">(</span><em class="sig-param">fixed_features</em>, <em class="sig-param">param_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#get_fixed_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.get_fixed_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat a set of fixed_features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.get_pending_observation_features">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">get_pending_observation_features</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">include_failed_as_pending=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#get_pending_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.get_pending_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a list of pending observation features (corresponding to arms that
+have been generated and deployed in the course of the experiment, but have not
+been completed with data).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – Experiment, pending features on which we seek to compute.</p></li>
+<li><p><strong>include_failed_as_pending</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to include failed trials as pending
+(for example, to avoid the model suggesting them again).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An optional mapping from metric names to a list of observation features,
+pending for that metric (i.e. do not have evaluation data for that metric).
+If there are no pending features for any of the metrics, return is None.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.parse_observation_features">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">parse_observation_features</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">param_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#parse_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.parse_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-format raw model-generated candidates into ObservationFeatures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – List of param names.</p></li>
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – Raw np.ndarray of candidate values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of candidates, represented as ObservationFeatures.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.pending_observations_as_array">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">pending_observations_as_array</code><span class="sig-paren">(</span><em class="sig-param">pending_observations</em>, <em class="sig-param">outcome_names</em>, <em class="sig-param">param_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#pending_observations_as_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.pending_observations_as_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-format pending observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pending_observations</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]]) – List of raw numpy pending observations.</p></li>
+<li><p><strong>outcome_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – List of outcome names.</p></li>
+<li><p><strong>param_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – List fitted param names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Filtered pending observations data, by outcome and param names.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.modelbridge_utils.transform_callback">
+<code class="sig-prename descclassname">ax.modelbridge.modelbridge_utils.</code><code class="sig-name descname">transform_callback</code><span class="sig-paren">(</span><em class="sig-param">param_names</em>, <em class="sig-param">transforms</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/modelbridge_utils.html#transform_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.modelbridge_utils.transform_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>A closure for performing the <cite>round trip</cite> transformations.</p>
+<p>The function round points by de-transforming points back into
+the original space (done by applying transforms in reverse), and then
+re-transforming them.
+This function is specifically for points which are formatted as numpy
+arrays. This function is passed to _model_gen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – Names of parameters to transform.</p></li>
+<li><p><strong>transforms</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.MutableMapping" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MutableMapping</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transform</span></code></a>]) – Ordered set of transforms which were applied to the points.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a function with for performing the roundtrip transform.</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
 <div class="section" id="module-ax.modelbridge.cross_validation">
 <span id="cross-validation"></span><h3>Cross Validation<a class="headerlink" href="#module-ax.modelbridge.cross_validation" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
@@ -907,6 +1181,189 @@ transform (does nothing).</p>
 </dd>
 </dl>
 </dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.modelbridge.transforms.cap_parameter">
+<span id="ax-modelbridge-transforms-cap-parameter"></span><h3><cite>ax.modelbridge.transforms.cap_parameter</cite><a class="headerlink" href="#module-ax.modelbridge.transforms.cap_parameter" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.modelbridge.transforms.cap_parameter.CapParameter">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.transforms.cap_parameter.</code><code class="sig-name descname">CapParameter</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/cap_parameter.html#CapParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.cap_parameter.CapParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
+<p>Cap parameter range(s) to given values. Expects a configuration of form
+{ parameter_name -&gt; new_upper_range_value }.</p>
+<p>This transform only transforms the search space.</p>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.cap_parameter.CapParameter.transform_search_space">
+<code class="sig-name descname">transform_search_space</code><span class="sig-paren">(</span><em class="sig-param">search_space</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/cap_parameter.html#CapParameter.transform_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.cap_parameter.CapParameter.transform_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform search space.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a>) – The search space</p>
+</dd>
+</dl>
+<p>Returns: transformed search space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.modelbridge.transforms.centered_unit_x">
+<span id="ax-modelbridge-transforms-centered-unit-x"></span><h3><cite>ax.modelbridge.transforms.centered_unit_x</cite><a class="headerlink" href="#module-ax.modelbridge.transforms.centered_unit_x" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.modelbridge.transforms.centered_unit_x.CenteredUnitX">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.transforms.centered_unit_x.</code><code class="sig-name descname">CenteredUnitX</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/centered_unit_x.html#CenteredUnitX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.centered_unit_x.CenteredUnitX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
+<p>Map X to [-1, 1]^d for RangeParameter of type float and not log scale.</p>
+<p>Currently does not support linear constraints, but could in the future be
+adjusted to transform them too, since this is a linear operation.</p>
+<p>Transform is done in-place.</p>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.transform_observation_features">
+<code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/centered_unit_x.html#CenteredUnitX.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.transform_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Observation features</p>
+</dd>
+</dl>
+<p>Returns: transformed observation features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.transform_search_space">
+<code class="sig-name descname">transform_search_space</code><span class="sig-paren">(</span><em class="sig-param">search_space</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/centered_unit_x.html#CenteredUnitX.transform_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.transform_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform search space.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a>) – The search space</p>
+</dd>
+</dl>
+<p>Returns: transformed search space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.untransform_observation_features">
+<code class="sig-name descname">untransform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/centered_unit_x.html#CenteredUnitX.untransform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.untransform_observation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untransform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Observation features in the transformed space</p>
+</dd>
+</dl>
+<p>Returns: observation features in the original space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.modelbridge.transforms.convert_metric_names">
+<span id="ax-modelbridge-transforms-convert-metric-names"></span><h3><cite>ax.modelbridge.transforms.convert_metric_names</cite><a class="headerlink" href="#module-ax.modelbridge.transforms.convert_metric_names" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.transforms.convert_metric_names.</code><code class="sig-name descname">ConvertMetricNames</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/convert_metric_names.html#ConvertMetricNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
+<p>Convert all metric names to canonical name as specified on a multi_type_experiment.</p>
+<p>For example, a multi-type experiment may have an offline simulator which attempts to
+approximate observations from some online system. We want to map the offline
+metric names to the corresponding online ones so the model can associate them.</p>
+<p>This is done by replacing metric names in the data with the corresponding
+online metric names.</p>
+<p>In the inverse transform, data will be mapped back onto the original metric names.
+By default, this transform is turned off. It can be enabled by passing the
+“perform_untransform” flag to the config.</p>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.transform_observation_data">
+<code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/convert_metric_names.html#ConvertMetricNames.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.transform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform observation features.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<p>This takes in observation_features, so that data transforms can be
+conditional on features, but observation_features are notmutated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]) – Observation data</p></li>
+<li><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Corresponding observation features</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: transformed observation data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.untransform_observation_data">
+<code class="sig-name descname">untransform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/convert_metric_names.html#ConvertMetricNames.untransform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.untransform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untransform observation data.</p>
+<p>This is typically done in-place. This class implements the identity
+transform (does nothing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]) – Observation data, in transformed space</p></li>
+<li><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Corresponding observation features, in same
+space.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: observation data in original space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.transforms.convert_metric_names.convert_mt_observations">
+<code class="sig-prename descclassname">ax.modelbridge.transforms.convert_metric_names.</code><code class="sig-name descname">convert_mt_observations</code><span class="sig-paren">(</span><em class="sig-param">observations</em>, <em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/convert_metric_names.html#convert_mt_observations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.convert_mt_observations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply ConvertMetricNames transform to observations for a MT experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.Observation" title="ax.core.observation.Observation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observation</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.transforms.convert_metric_names.tconfig_from_mt_experiment">
+<code class="sig-prename descclassname">ax.modelbridge.transforms.convert_metric_names.</code><code class="sig-name descname">tconfig_from_mt_experiment</code><span class="sig-paren">(</span><em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/convert_metric_names.html#tconfig_from_mt_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.tconfig_from_mt_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the TConfig for this transform given a multi_type_experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.multi_type_experiment.MultiTypeExperiment" title="ax.core.multi_type_experiment.MultiTypeExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiTypeExperiment</span></code></a>) – The experiment from which to generate the config.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AcquisitionFunction</span></code>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The transform config to pass into the ConvertMetricNames constructor.</p>
+</dd>
+</dl>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.modelbridge.transforms.derelativize">
@@ -1833,6 +2290,27 @@ transform (does nothing).</p>
 </dd></dl>
 </dd></dl>
 </div>
+<div class="section" id="module-ax.modelbridge.transforms.winsorize">
+<span id="ax-modelbridge-winsorize"></span><h3><cite>ax.modelbridge.winsorize</cite><a class="headerlink" href="#module-ax.modelbridge.transforms.winsorize" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ax.modelbridge.transforms.winsorize.Winsorize">
+<em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.transforms.winsorize.</code><code class="sig-name descname">Winsorize</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/winsorize.html#Winsorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.winsorize.Winsorize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
+<p>Clip the mean values for each metric to lay within the limits provided in
+the config as a tuple of (lower bound percentile, upper bound percentile).
+Config should include those bounds under key “winsorization_limits”.</p>
+<dl class="method">
+<dt id="ax.modelbridge.transforms.winsorize.Winsorize.transform_observation_data">
+<code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/winsorize.html#Winsorize.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.winsorize.Winsorize.transform_observation_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Winsorize observation data in place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationData" title="ax.core.observation.ObservationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationData</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
 </div>
 </div>
 </div>
@@ -1849,7 +2327,7 @@ transform (does nothing).</p>
 <li class="toctree-l1"><a class="reference internal" href="exceptions.html">ax.exceptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="metrics.html">ax.metrics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ax.modelbridge</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#factory-and-generation-strategy">Factory and Generation Strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generation-strategy-registry-and-factory">Generation Strategy, Registry, and Factory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#model-bridges">Model Bridges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transforms">Transforms</a></li>
