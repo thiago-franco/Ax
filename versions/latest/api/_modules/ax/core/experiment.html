@@ -34,7 +34,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">reduce</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
 <span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
@@ -356,7 +356,7 @@ src="/js/documentation_options.js">
             <span class="c1"># For trials in candidate phase, append any attached data</span>
             <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">CANDIDATE</span><span class="p">:</span>
-                    <span class="n">trial_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+                    <span class="n">trial_data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">trial_data</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                         <span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial_data</span><span class="p">)</span>
 
@@ -365,7 +365,7 @@ src="/js/documentation_options.js">
             <span class="c1"># If some of the metrics do not implement data fetching, we should</span>
             <span class="c1"># fall back to data that has been attached.</span>
             <span class="k">return</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
-                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trials</span><span class="p">]</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">idx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trials</span><span class="p">]</span>
             <span class="p">)</span></div>
 
     <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">BaseTrial</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">)</span>
@@ -383,7 +383,7 @@ src="/js/documentation_options.js">
             <span class="n">trial</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">CANDIDATE</span>
             <span class="ow">or</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">DISPATCHED</span>
         <span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">expecting_data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Data</span><span class="p">()</span>
 
@@ -399,7 +399,7 @@ src="/js/documentation_options.js">
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="c1"># If some of the metrics do not implement data fetching, we should</span>
             <span class="c1"># fall back to data that has been attached.</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Experiment.attach_data"><a class="viewcode-back" href="../../../core.html#ax.Experiment.attach_data">[docs]</a>    <span class="k">def</span> <span class="nf">attach_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">"""Attach data to experiment.</span>
@@ -444,23 +444,28 @@ src="/js/documentation_options.js">
 
         <span class="k">return</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span><span class="n">trial_datas</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Experiment.lookup_data_for_trial"><a class="viewcode-back" href="../../../core.html#ax.Experiment.lookup_data_for_trial">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_data_for_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
+<div class="viewcode-block" id="Experiment.lookup_data_for_trial"><a class="viewcode-back" href="../../../core.html#ax.Experiment.lookup_data_for_trial">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_data_for_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">"""Lookup stored data for a specific trial.</span>
 
-<span class="sd">        Returns latest data object present for this trial.</span>
-<span class="sd">        Returns empty data if no data present.</span>
+<span class="sd">        Returns latest data object, and its storage timestamp, present for this trial.</span>
+<span class="sd">        Returns empty data and -1 if no data present.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            trial_index: The index of the trial to lookup data for.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Requested data object.</span>
+<span class="sd">            The requested data object, and its storage timestamp in milliseconds.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_by_trial</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Data</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">Data</span><span class="p">(),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="n">trial_data_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_by_trial</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">trial_data_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial_data_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Data</span><span class="p">()</span></div>
+        <span class="n">storage_time_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_by_trial</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">trial_data_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">storage_time_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial_data_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">else</span> <span class="p">(</span><span class="n">Data</span><span class="p">(),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_trials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>

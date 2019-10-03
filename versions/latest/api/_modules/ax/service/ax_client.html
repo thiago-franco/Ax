@@ -298,6 +298,11 @@ src="/js/documentation_options.js">
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">trial_index</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">),</span> <span class="n">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{trial_index}</span><span class="s2">."</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">f</span><span class="s2">"Cannot complete trial #</span><span class="si">{trial_index}</span><span class="s2"> as it does not yet exist "</span>
+                <span class="n">f</span><span class="s2">"for experiment </span><span class="si">{self.experiment.name}</span><span class="s2">."</span>
+            <span class="p">)</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
@@ -706,6 +711,7 @@ src="/js/documentation_options.js">
                 <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
                 <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">_get_new_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
@@ -716,7 +722,10 @@ src="/js/documentation_options.js">
 <span class="sd">            Latest data.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
-            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span><span class="p">]</span>
+            <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">idx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span>
+            <span class="p">]</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_gen_new_generator_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeneratorRun</span><span class="p">:</span>

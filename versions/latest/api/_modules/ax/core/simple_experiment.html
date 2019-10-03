@@ -128,7 +128,7 @@ src="/js/documentation_options.js">
 <span class="sd">        Args:</span>
 <span class="sd">            trial: trial, whose arms to evaluate.</span>
 <span class="sd">        """</span>
-        <span class="n">cached_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">cached_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cached_data</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cached_data</span>
 

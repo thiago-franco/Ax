@@ -218,7 +218,6 @@ src="/js/documentation_options.js">
         <span class="n">enough_generated</span> <span class="o">=</span> <span class="p">(</span>
             <span class="ow">not</span> <span class="n">unlimited_arms</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generated</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">num_arms</span>
         <span class="p">)</span>
-        <span class="n">remaining_arms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">num_arms</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generated</span><span class="p">)</span>
 
         <span class="c1"># Check that minimum observed_arms is satisfied if it's enforced.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">enforce_num_arms</span> <span class="ow">and</span> <span class="n">enough_generated</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">enough_observed</span><span class="p">:</span>
@@ -229,15 +228,6 @@ src="/js/documentation_options.js">
             <span class="p">)</span>
             <span class="c1"># TODO[Lena, T44021164]: take into account failed trials. Potentially</span>
             <span class="c1"># reduce `_generated` count when a trial mentioned in new data failed.</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">enforce_num_arms</span>
-            <span class="ow">and</span> <span class="ow">not</span> <span class="n">unlimited_arms</span>
-            <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">remaining_arms</span> <span class="o">&lt;</span> <span class="n">n</span>
-        <span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Cannot generate </span><span class="si">{n}</span><span class="s2"> new arms as there are only </span><span class="si">{remaining_arms}</span><span class="s2"> "</span>
-                <span class="s2">"remaining arms to generate using the current model."</span>
-            <span class="p">)</span>
 
         <span class="n">all_data</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">new_data</span><span class="p">])</span>
