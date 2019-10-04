@@ -1270,7 +1270,7 @@ the fit or predict methods.</p>
 <em class="property">class </em><code class="sig-prename descclassname">ax.models.torch.botorch.</code><code class="sig-name descname">BotorchModel</code><span class="sig-paren">(</span><em class="sig-param">model_constructor=&lt;function get_and_fit_model&gt;</em>, <em class="sig-param">model_predictor=&lt;function predict_from_model&gt;</em>, <em class="sig-param">acqf_constructor=&lt;function get_NEI&gt;</em>, <em class="sig-param">acqf_optimizer=&lt;function scipy_optimizer&gt;</em>, <em class="sig-param">refit_on_cv=False</em>, <em class="sig-param">refit_on_update=True</em>, <em class="sig-param">warm_start_refitting=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch.html#BotorchModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ax.models.torch_base.TorchModel" title="ax.models.torch_base.TorchModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.models.torch_base.TorchModel</span></code></a></p>
 <p>Customizable botorch model.</p>
-<p>By default, this uses a noisy Expected Improvement acquisition funciton on
+<p>By default, this uses a noisy Expected Improvement acquisition function on
 top of a model made up of separate GPs, one for each outcome. This behavior
 can be modified by providing custom implementations of the following
 components:</p>
