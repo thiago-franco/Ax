@@ -118,7 +118,7 @@ metric name to a tuple of mean and SEM).</p></li>
 </dd></dl>
 <dl class="method">
 <dt id="ax.service.ax_client.AxClient.create_experiment">
-<code class="sig-name descname">create_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em>, <em class="sig-param">overwrite_existing_experiment=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.create_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.create_experiment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">create_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em>, <em class="sig-param">overwrite_existing_experiment=False</em>, <em class="sig-param">experiment_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.create_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.create_experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new experiment and save it if DBSettings available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -532,8 +532,10 @@ metrics.</p>
 <dl class="function">
 <dt id="ax.service.utils.best_point.get_best_from_model_predictions">
 <code class="sig-prename descclassname">ax.service.utils.best_point.</code><code class="sig-name descname">get_best_from_model_predictions</code><span class="sig-paren">(</span><em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/best_point.html#get_best_from_model_predictions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.best_point.get_best_from_model_predictions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given an experiment, identifies the best arm according to the outputs
-of models used in optimization and its corresponding predictions if available.</p>
+<dd><p>Given an experiment, returns the best predicted parameterization and corresponding
+prediction based on the most recent Trial with predictions. If no trials have
+predictions returns None.</p>
+<p>Only some models return predictions. For instance GPEI does while Sobol does not.</p>
 <dl class="simple">
 <dt>TModelPredictArm is of the form:</dt><dd><p>({metric_name: mean}, {metric_name_1: {metric_name_2: cov_1_2}})</p>
 </dd>
@@ -648,7 +650,7 @@ if unavailable.</p></li>
 </dd></dl>
 <dl class="function">
 <dt id="ax.service.utils.instantiation.make_experiment">
-<code class="sig-prename descclassname">ax.service.utils.instantiation.</code><code class="sig-name descname">make_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/instantiation.html#make_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.instantiation.make_experiment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.service.utils.instantiation.</code><code class="sig-name descname">make_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em>, <em class="sig-param">experiment_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/instantiation.html#make_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.instantiation.make_experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiation wrapper that allows for creation of SimpleExperiment without
 importing or instantiating any Ax classes.</p>
 <dl class="field-list simple">

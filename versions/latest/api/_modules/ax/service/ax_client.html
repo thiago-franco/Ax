@@ -188,6 +188,7 @@ src="/js/documentation_options.js">
         <span class="n">outcome_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">overwrite_existing_experiment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">experiment_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Create a new experiment and save it if DBSettings available.</span>
 
@@ -247,6 +248,7 @@ src="/js/documentation_options.js">
             <span class="n">parameter_constraints</span><span class="o">=</span><span class="n">parameter_constraints</span><span class="p">,</span>
             <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
             <span class="n">status_quo</span><span class="o">=</span><span class="n">status_quo</span><span class="p">,</span>
+            <span class="n">experiment_type</span><span class="o">=</span><span class="n">experiment_type</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
