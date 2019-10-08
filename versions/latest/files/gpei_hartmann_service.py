@@ -28,7 +28,7 @@ init_notebook_plotting()
 # In[2]:
 
 
-ax = AxClient()
+ax_client = AxClient()
 
 
 # ## 2. Set up experiment
@@ -42,7 +42,7 @@ ax = AxClient()
 # In[3]:
 
 
-ax.create_experiment(
+ax_client.create_experiment(
     name="hartmann_test_experiment",
     parameters=[
         {
@@ -113,9 +113,9 @@ def evaluate(parameters):
 
 
 for i in range(25):
-    parameters, trial_index = ax.get_next_trial()
+    parameters, trial_index = ax_client.get_next_trial()
     # Local evaluation here can be replaced with deployment to external system.
-    ax.complete_trial(trial_index=trial_index, raw_data=evaluate(parameters))
+    ax_client.complete_trial(trial_index=trial_index, raw_data=evaluate(parameters))
 
 
 # To view all trials in a data frame at any point during optimization:
@@ -123,7 +123,7 @@ for i in range(25):
 # In[6]:
 
 
-ax.get_trials_data_frame().sort_values('trial_index')
+ax_client.get_trials_data_frame().sort_values('trial_index')
 
 
 # ## 5. Retrieve best parameters
@@ -133,7 +133,7 @@ ax.get_trials_data_frame().sort_values('trial_index')
 # In[7]:
 
 
-best_parameters, values = ax.get_best_parameters()
+best_parameters, values = ax_client.get_best_parameters()
 best_parameters
 
 
@@ -158,7 +158,7 @@ hartmann6.fmin
 # In[10]:
 
 
-render(ax.get_contour_plot())
+render(ax_client.get_contour_plot())
 
 
 # We can also retrieve a contour plot for the other metric, "l2norm" –– say, we are interested in seeing the response surface for parameters "x3" and "x4" for this one.
@@ -166,7 +166,7 @@ render(ax.get_contour_plot())
 # In[11]:
 
 
-render(ax.get_contour_plot(param_x="x3", param_y="x4", metric_name="l2norm"))
+render(ax_client.get_contour_plot(param_x="x3", param_y="x4", metric_name="l2norm"))
 
 
 # Here we plot the optimization trace, showing the progression of finding the point with the optimal objective:
@@ -174,7 +174,7 @@ render(ax.get_contour_plot(param_x="x3", param_y="x4", metric_name="l2norm"))
 # In[12]:
 
 
-render(ax.get_optimization_trace(objective_optimum=hartmann6.fmin))  # Objective_optimum is optional.
+render(ax_client.get_optimization_trace(objective_optimum=hartmann6.fmin))  # Objective_optimum is optional.
 
 
 # ## 7. Save / reload optimization to JSON / SQL
@@ -183,7 +183,7 @@ render(ax.get_optimization_trace(objective_optimum=hartmann6.fmin))  # Objective
 # In[13]:
 
 
-ax.save_to_json_file()  # For custom filepath, pass `filepath` argument.
+ax_client.save_to_json_file()  # For custom filepath, pass `filepath` argument.
 
 
 # In[14]:
@@ -209,7 +209,7 @@ new_ax = AxClient(db_settings=db_settings)
 
 # When valid `DBSettings` are passed into `AxClient`, a unique experiment name is a required argument (`name`) to `ax_client.create_experiment`. The **state of the optimization is auto-saved** any time it changes (i.e. a new trial is added or completed, etc). 
 # 
-# To reload an optimization state later, instantiate `AxClient` with the same `DBSettings` and use `ax.load_experiment_from_database(experiment_name="my_experiment")`.
+# To reload an optimization state later, instantiate `AxClient` with the same `DBSettings` and use `ax_client.load_experiment_from_database(experiment_name="my_experiment")`.
 
 # # Special Cases
 
@@ -218,8 +218,8 @@ new_ax = AxClient(db_settings=db_settings)
 # In[16]:
 
 
-_, trial_index = ax.get_next_trial()
-ax.log_trial_failure(trial_index=trial_index)
+_, trial_index = ax_client.get_next_trial()
+ax_client.log_trial_failure(trial_index=trial_index)
 
 
 # **Adding custom trials**: should there be need to evaluate a specific parameterization, `attach_trial` will add it to the experiment.
@@ -227,7 +227,7 @@ ax.log_trial_failure(trial_index=trial_index)
 # In[17]:
 
 
-ax.attach_trial(parameters={"x1": 9.0, "x2": 9.0, "x3": 9.0, "x4": 9.0, "x5": 9.0, "x6": 9.0})
+ax_client.attach_trial(parameters={"x1": 9.0, "x2": 9.0, "x3": 9.0, "x4": 9.0, "x5": 9.0, "x6": 9.0})
 
 
 # **Need to run many trials in parallel**: for optimal results and optimization efficiency, we strongly recommend sequential optimization (generating a few trials, then waiting for them to be completed with evaluation data). However, if your use case needs to dispatch many trials in parallel before they are updated with data and you are running into the *"All trials for current model have been generated, but not enough data has been observed to fit next model"* error, instantiate `AxClient` as `AxClient(enforce_sequential_optimization=False)`.
