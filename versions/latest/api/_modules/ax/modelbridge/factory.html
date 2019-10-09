@@ -257,7 +257,8 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="get_factorial"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.factory.get_factorial">[docs]</a><span class="k">def</span> <span class="nf">get_factorial</span><span class="p">(</span><span class="n">search_space</span><span class="p">:</span> <span class="n">SearchSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiscreteModelBridge</span><span class="p">:</span>
     <span class="sd">"""Instantiates a factorial generator."""</span>
     <span class="k">return</span> <span class="n">checked_cast</span><span class="p">(</span>
-        <span class="n">DiscreteModelBridge</span><span class="p">,</span> <span class="n">Models</span><span class="o">.</span><span class="n">FACTORIAL</span><span class="p">(</span><span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">)</span>
+        <span class="n">DiscreteModelBridge</span><span class="p">,</span>
+        <span class="n">Models</span><span class="o">.</span><span class="n">FACTORIAL</span><span class="p">(</span><span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">,</span> <span class="n">fit_out_of_design</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="p">)</span></div>
 
 
@@ -281,6 +282,7 @@ src="/js/documentation_options.js">
             <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
             <span class="n">min_weight</span><span class="o">=</span><span class="n">min_weight</span><span class="p">,</span>
             <span class="n">uniform_weights</span><span class="o">=</span><span class="n">uniform_weights</span><span class="p">,</span>
+            <span class="n">fit_out_of_design</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 
@@ -305,6 +307,7 @@ src="/js/documentation_options.js">
             <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
             <span class="n">min_weight</span><span class="o">=</span><span class="n">min_weight</span><span class="p">,</span>
             <span class="n">uniform_weights</span><span class="o">=</span><span class="n">uniform_weights</span><span class="p">,</span>
+            <span class="n">fit_out_of_design</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 </pre></div>

@@ -93,6 +93,7 @@ src="/js/documentation_options.js">
         <span class="n">status_quo_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">status_quo_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">optimization_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">OptimizationConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fit_out_of_design</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Applies transforms and fits model.</span>
@@ -132,6 +133,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">_model_space</span> <span class="o">=</span> <span class="n">search_space</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_transforms</span> <span class="o">=</span> <span class="n">transforms</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transform_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="n">transform_configs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fit_out_of_design</span> <span class="o">=</span> <span class="n">fit_out_of_design</span>
 
         <span class="k">if</span> <span class="n">experiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimization_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -145,7 +147,7 @@ src="/js/documentation_options.js">
             <span class="k">else</span> <span class="p">[]</span>
         <span class="p">)</span>
         <span class="n">obs_feats_raw</span><span class="p">,</span> <span class="n">obs_data_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_training_data</span><span class="p">(</span>
-            <span class="n">observations</span><span class="p">,</span> <span class="n">search_space</span>
+            <span class="n">observations</span><span class="o">=</span><span class="n">observations</span><span class="p">,</span> <span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span>
         <span class="p">)</span>
         <span class="c1"># Set model status quo</span>
         <span class="c1"># NOTE: training data must be set before setting the status quo.</span>
@@ -221,9 +223,8 @@ src="/js/documentation_options.js">
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">]]:</span>
         <span class="sd">"""Store training data, not-transformed.</span>
 
-<span class="sd">        Although all input training data is stored, only in-design training data</span>
-<span class="sd">        is returned. This is because model fitting requires only</span>
-<span class="sd">        in design points.</span>
+<span class="sd">        If the modelbridge specifies _fit_out_of_design, all training data is</span>
+<span class="sd">        returned. Otherwise, only in design points are returned.</span>
 <span class="sd">        """</span>
         <span class="n">observation_features</span><span class="p">,</span> <span class="n">observation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_training_data</span><span class="p">(</span>
             <span class="n">observations</span><span class="o">=</span><span class="n">observations</span>
@@ -232,22 +233,19 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">_metric_names</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">obsd</span> <span class="ow">in</span> <span class="n">observation_data</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_metric_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">obsd</span><span class="o">.</span><span class="n">metric_names</span><span class="p">)</span>
-        <span class="n">in_design</span><span class="p">,</span> <span class="n">in_design_features</span><span class="p">,</span> <span class="n">in_design_data</span> <span class="o">=</span> <span class="n">filter_in_design</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_in_design</span><span class="p">(</span>
             <span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">,</span>
             <span class="n">observation_features</span><span class="o">=</span><span class="n">observation_features</span><span class="p">,</span>
             <span class="n">observation_data</span><span class="o">=</span><span class="n">observation_data</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">training_in_design</span> <span class="o">=</span> <span class="n">in_design</span>
-        <span class="k">return</span> <span class="n">in_design_features</span><span class="p">,</span> <span class="n">in_design_data</span>
 
     <span class="k">def</span> <span class="nf">_extend_training_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Observation</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">]]:</span>
         <span class="sd">"""Extend and return training data, not-transformed.</span>
 
-<span class="sd">        Although all input training data is stored, only in-design training data</span>
-<span class="sd">        is returned. This is because model fitting requires only</span>
-<span class="sd">        in design points.</span>
+<span class="sd">        If the modelbridge specifies _fit_out_of_design, all training data is</span>
+<span class="sd">        returned. Otherwise, only in design points are returned.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            observations: New observations.</span>
@@ -272,12 +270,30 @@ src="/js/documentation_options.js">
         <span class="n">all_observation_features</span><span class="p">,</span> <span class="n">all_observation_data</span> <span class="o">=</span> <span class="n">separate_observations</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_training_data</span><span class="p">()</span>
         <span class="p">)</span>
-        <span class="n">in_design</span><span class="p">,</span> <span class="n">in_design_features</span><span class="p">,</span> <span class="n">in_design_data</span> <span class="o">=</span> <span class="n">filter_in_design</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_in_design</span><span class="p">(</span>
             <span class="n">search_space</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_space</span><span class="p">,</span>
             <span class="n">observation_features</span><span class="o">=</span><span class="n">all_observation_features</span><span class="p">,</span>
             <span class="n">observation_data</span><span class="o">=</span><span class="n">all_observation_data</span><span class="p">,</span>
         <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_in_design</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">search_space</span><span class="p">:</span> <span class="n">SearchSpace</span><span class="p">,</span>
+        <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span>
+        <span class="n">observation_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">]]:</span>
+        <span class="sd">"""Set training_in_design, and decide whether to filter out of design points."""</span>
+        <span class="n">in_design</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">search_space</span><span class="o">.</span><span class="n">check_membership</span><span class="p">(</span><span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">obsf</span> <span class="ow">in</span> <span class="n">observation_features</span>
+        <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">training_in_design</span> <span class="o">=</span> <span class="n">in_design</span>
+        <span class="c1"># Don't filter points.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_out_of_design</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">observation_features</span><span class="p">,</span> <span class="n">observation_data</span>
+        <span class="n">in_design_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">in_design</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">in_design</span><span class="p">)</span> <span class="k">if</span> <span class="n">in_design</span><span class="p">]</span>
+        <span class="n">in_design_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">observation_features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">in_design_indices</span><span class="p">]</span>
+        <span class="n">in_design_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">observation_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">in_design_indices</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">in_design_features</span><span class="p">,</span> <span class="n">in_design_data</span>
 
     <span class="k">def</span> <span class="nf">_set_status_quo</span><span class="p">(</span>
@@ -422,6 +438,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="c1"># Get modifiable version</span>
         <span class="n">observation_features</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">observation_features</span><span class="p">)</span>
+
         <span class="c1"># Transform</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">observation_features</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">transform_observation_features</span><span class="p">(</span>
@@ -777,20 +794,6 @@ src="/js/documentation_options.js">
             <span class="n">arm</span> <span class="o">=</span> <span class="n">Arm</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">existing_arm</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">existing_arm</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
         <span class="n">arms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arm</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">arms</span></div>
-
-
-<div class="viewcode-block" id="filter_in_design"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.base.filter_in_design">[docs]</a><span class="k">def</span> <span class="nf">filter_in_design</span><span class="p">(</span>
-    <span class="n">search_space</span><span class="p">:</span> <span class="n">SearchSpace</span><span class="p">,</span>
-    <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span>
-    <span class="n">observation_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">]]:</span>
-    <span class="n">in_design</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">search_space</span><span class="o">.</span><span class="n">check_membership</span><span class="p">(</span><span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span> <span class="k">for</span> <span class="n">obsf</span> <span class="ow">in</span> <span class="n">observation_features</span>
-    <span class="p">]</span>
-    <span class="n">in_design_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">in_design</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">in_design</span><span class="p">)</span> <span class="k">if</span> <span class="n">in_design</span><span class="p">]</span>
-    <span class="n">observation_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">observation_features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">in_design_indices</span><span class="p">]</span>
-    <span class="n">observation_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">observation_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">in_design_indices</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">in_design</span><span class="p">,</span> <span class="n">observation_features</span><span class="p">,</span> <span class="n">observation_data</span></div>
 </pre></div>
 </div>
 </div>
