@@ -152,6 +152,8 @@ src="/js/documentation_options.js">
         <span class="n">evaluations</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TTrialEvaluation</span><span class="p">],</span>
         <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">sample_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">start_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">end_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Data"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Convert dict of evaluations to Ax data object.</span>
@@ -161,6 +163,10 @@ src="/js/documentation_options.js">
 <span class="sd">                of metric names to tuples of mean and optionally a SEM).</span>
 <span class="sd">            trial_index: Trial index to which this data belongs.</span>
 <span class="sd">            sample_sizes: Number of samples collected for each arm.</span>
+<span class="sd">            start_time: Optional start time of run of the trial that produced this</span>
+<span class="sd">                data, in milliseconds.</span>
+<span class="sd">            end_time: Optional end time of run of the trial that produced this</span>
+<span class="sd">                data, in milliseconds.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Ax Data object.</span>
@@ -176,6 +182,9 @@ src="/js/documentation_options.js">
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">evaluation</span> <span class="ow">in</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="p">]</span>
+        <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">end_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="n">record</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"start_time"</span><span class="p">:</span> <span class="n">start_time</span><span class="p">,</span> <span class="s2">"end_time"</span><span class="p">:</span> <span class="n">end_time</span><span class="p">})</span>
         <span class="k">if</span> <span class="n">sample_sizes</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
                 <span class="n">record</span><span class="p">[</span><span class="s2">"n"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_sizes</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">"arm_name"</span><span class="p">])]</span>
@@ -186,6 +195,8 @@ src="/js/documentation_options.js">
         <span class="n">evaluations</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TFidelityTrialEvaluation</span><span class="p">],</span>
         <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">sample_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">start_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">end_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Data"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Convert dict of fidelity evaluations to Ax data object.</span>
@@ -196,6 +207,10 @@ src="/js/documentation_options.js">
 <span class="sd">                tuples of mean and SEM).</span>
 <span class="sd">            trial_index: Trial index to which this data belongs.</span>
 <span class="sd">            sample_sizes: Number of samples collected for each arm.</span>
+<span class="sd">            start_time: Optional start time of run of the trial that produced this</span>
+<span class="sd">                data, in milliseconds.</span>
+<span class="sd">            end_time: Optional end time of run of the trial that produced this</span>
+<span class="sd">                data, in milliseconds.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Ax Data object.</span>
@@ -213,6 +228,9 @@ src="/js/documentation_options.js">
             <span class="k">for</span> <span class="n">fidelity</span><span class="p">,</span> <span class="n">evaluation</span> <span class="ow">in</span> <span class="n">fidelity_and_metrics_list</span>
             <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="p">]</span>
+        <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">end_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="n">record</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"start_time"</span><span class="p">:</span> <span class="n">start_time</span><span class="p">,</span> <span class="s2">"end_time"</span><span class="p">:</span> <span class="n">end_time</span><span class="p">})</span>
         <span class="k">if</span> <span class="n">sample_sizes</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
                 <span class="n">record</span><span class="p">[</span><span class="s2">"n"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_sizes</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">"arm_name"</span><span class="p">])]</span>

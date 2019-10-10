@@ -309,7 +309,10 @@ src="/js/documentation_options.js">
 
 
 <div class="viewcode-block" id="raw_data_to_evaluation"><a class="viewcode-back" href="../../../../service.html#ax.service.utils.instantiation.raw_data_to_evaluation">[docs]</a><span class="k">def</span> <span class="nf">raw_data_to_evaluation</span><span class="p">(</span>
-    <span class="n">raw_data</span><span class="p">:</span> <span class="n">TEvaluationOutcome</span><span class="p">,</span> <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">raw_data</span><span class="p">:</span> <span class="n">TEvaluationOutcome</span><span class="p">,</span>
+    <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TEvaluationOutcome</span><span class="p">:</span>
     <span class="sd">"""Format the trial evaluation data to a standard `TTrialEvaluation`</span>
 <span class="sd">    (mapping from metric names to a tuple of mean and SEM) representation, or</span>
@@ -342,6 +345,8 @@ src="/js/documentation_options.js">
     <span class="n">evaluations</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TEvaluationOutcome</span><span class="p">],</span>
     <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">sample_sizes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
     <span class="sd">"""Transforms evaluations into Ax Data.</span>
 
@@ -354,6 +359,10 @@ src="/js/documentation_options.js">
 <span class="sd">        trial_index: Index of the trial, for which the evaluations are.</span>
 <span class="sd">        sample_sizes: Number of samples collected for each arm, may be empty</span>
 <span class="sd">            if unavailable.</span>
+<span class="sd">        start_time: Optional start time of run of the trial that produced this</span>
+<span class="sd">            data, in milliseconds.</span>
+<span class="sd">        end_time: Optional end time of run of the trial that produced this</span>
+<span class="sd">            data, in milliseconds.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">evaluations</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="c1"># All evaluations are no-fidelity evaluations.</span>
@@ -361,6 +370,8 @@ src="/js/documentation_options.js">
             <span class="n">evaluations</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TTrialEvaluation</span><span class="p">],</span> <span class="n">evaluations</span><span class="p">),</span>
             <span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">,</span>
             <span class="n">sample_sizes</span><span class="o">=</span><span class="n">sample_sizes</span><span class="p">,</span>
+            <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+            <span class="n">end_time</span><span class="o">=</span><span class="n">end_time</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">evaluations</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="c1"># All evaluations are with-fidelity evaluations.</span>
@@ -368,6 +379,8 @@ src="/js/documentation_options.js">
             <span class="n">evaluations</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TFidelityTrialEvaluation</span><span class="p">],</span> <span class="n">evaluations</span><span class="p">),</span>
             <span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">,</span>
             <span class="n">sample_sizes</span><span class="o">=</span><span class="n">sample_sizes</span><span class="p">,</span>
+            <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+            <span class="n">end_time</span><span class="o">=</span><span class="n">end_time</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>

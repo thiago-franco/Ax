@@ -72,7 +72,12 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.storage.json_store.encoder</span> <span class="k">import</span> <span class="n">object_to_json</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="k">import</span> <span class="n">copy_doc</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">_round_floats_for_logging</span><span class="p">,</span> <span class="n">get_logger</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span><span class="p">,</span> <span class="n">checked_cast_dict</span><span class="p">,</span> <span class="n">not_none</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">checked_cast</span><span class="p">,</span>
+    <span class="n">checked_cast_dict</span><span class="p">,</span>
+    <span class="n">checked_cast_optional</span><span class="p">,</span>
+    <span class="n">not_none</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">botorch.utils.sampling</span> <span class="k">import</span> <span class="n">manual_seed</span>
 
 
@@ -281,7 +286,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">raw_data</span><span class="p">:</span> <span class="n">TEvaluationOutcome</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">sample_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -296,6 +301,8 @@ src="/js/documentation_options.js">
 <span class="sd">                is no SEM.  Can also be a list of (fidelities, mapping from</span>
 <span class="sd">                metric name to a tuple of mean and SEM).</span>
 <span class="sd">            metadata: Additional metadata to track about this run.</span>
+<span class="sd">            sample_size: Number of samples collected for the underlying arm,</span>
+<span class="sd">                optional.</span>
 <span class="sd">        """</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">trial_index</span><span class="p">,</span> <span class="nb">int</span>
@@ -322,7 +329,19 @@ src="/js/documentation_options.js">
         <span class="p">}</span>
         <span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">arm_name</span><span class="p">:</span> <span class="n">sample_size</span><span class="p">}</span> <span class="k">if</span> <span class="n">sample_size</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data_from_evaluations</span><span class="p">(</span>
-            <span class="n">evaluations</span><span class="o">=</span><span class="n">evaluations</span><span class="p">,</span> <span class="n">trial_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">sample_sizes</span><span class="o">=</span><span class="n">sample_sizes</span>
+            <span class="n">evaluations</span><span class="o">=</span><span class="n">evaluations</span><span class="p">,</span>
+            <span class="n">trial_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+            <span class="n">sample_sizes</span><span class="o">=</span><span class="n">sample_sizes</span><span class="p">,</span>
+            <span class="n">start_time</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">checked_cast_optional</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"start_time"</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">),</span>
+            <span class="n">end_time</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">checked_cast_optional</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"end_time"</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">),</span>
         <span class="p">)</span>
         <span class="c1"># In service API, a trial may be completed multiple times (for multiple</span>
         <span class="c1"># metrics, for example).</span>

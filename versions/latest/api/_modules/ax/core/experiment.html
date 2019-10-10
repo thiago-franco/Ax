@@ -30,7 +30,6 @@ src="/js/documentation_options.js">
 <span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">reduce</span>
@@ -50,6 +49,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="k">import</span> <span class="n">Trial</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="k">import</span> <span class="n">copy_doc</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.timeutils</span> <span class="k">import</span> <span class="n">current_timestamp_in_millis</span>
 
 
 <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -410,7 +410,7 @@ src="/js/documentation_options.js">
 <span class="sd">        Returns:</span>
 <span class="sd">            Timestamp of storage in millis.</span>
 <span class="sd">        """</span>
-        <span class="n">cur_time_millis</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+        <span class="n">cur_time_millis</span> <span class="o">=</span> <span class="n">current_timestamp_in_millis</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">trial_index</span><span class="p">,</span> <span class="n">trial_df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"trial_index"</span><span class="p">]):</span>
             <span class="n">current_trial_data</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data_by_trial</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span>
