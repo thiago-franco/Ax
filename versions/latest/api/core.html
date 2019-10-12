@@ -960,6 +960,27 @@ data, in milliseconds.</p></li>
 </dd></dl>
 </dd></dl>
 <dl class="function">
+<dt id="ax.core.data.clone_without_metrics">
+<code class="sig-prename descclassname">ax.core.data.</code><code class="sig-name descname">clone_without_metrics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">excluded_metric_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/data.html#clone_without_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.data.clone_without_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new data object where rows containing the metrics specified by
+<cite>metric_names</cite> are filtered out. Used to sanitize data before using it as
+training data for a model that requires data rectangularity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – Original data to clone.</p></li>
+<li><p><strong>excluded_metric_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – Metrics to avoid copying</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>new version of the original data without specified metrics.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
 <dt id="ax.core.data.custom_data_class">
 <code class="sig-prename descclassname">ax.core.data.</code><code class="sig-name descname">custom_data_class</code><span class="sig-paren">(</span><em class="sig-param">column_data_types=None</em>, <em class="sig-param">required_columns=None</em>, <em class="sig-param">time_columns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/data.html#custom_data_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.data.custom_data_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a custom data class with additional columns.</p>
@@ -3370,6 +3391,69 @@ else None.</p>
 </dl>
 </dd></dl>
 </div>
+<div class="section" id="module-ax.core.utils">
+<span id="core-utils"></span><h2>Core Utils<a class="headerlink" href="#module-ax.core.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ax.core.utils.MissingMetrics">
+<em class="property">class </em><code class="sig-prename descclassname">ax.core.utils.</code><code class="sig-name descname">MissingMetrics</code><span class="sig-paren">(</span><em class="sig-param">objective</em>, <em class="sig-param">outcome_constraints</em>, <em class="sig-param">tracking_metrics</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/utils.html#MissingMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.utils.MissingMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+<dl class="method">
+<dt id="ax.core.utils.MissingMetrics.objective">
+<em class="property">property </em><code class="sig-name descname">objective</code><a class="headerlink" href="#ax.core.utils.MissingMetrics.objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.core.utils.MissingMetrics.outcome_constraints">
+<em class="property">property </em><code class="sig-name descname">outcome_constraints</code><a class="headerlink" href="#ax.core.utils.MissingMetrics.outcome_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.core.utils.MissingMetrics.tracking_metrics">
+<em class="property">property </em><code class="sig-name descname">tracking_metrics</code><a class="headerlink" href="#ax.core.utils.MissingMetrics.tracking_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.core.utils.get_missing_metrics">
+<code class="sig-prename descclassname">ax.core.utils.</code><code class="sig-name descname">get_missing_metrics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">optimization_config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/utils.html#get_missing_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.utils.get_missing_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all arm_name, trial_index pairs, for which some of the
+observatins of optimization config metrics are missing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – Data to search.</p></li>
+<li><p><strong>optimization_config</strong> (<a class="reference internal" href="#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a>) – provides metric_names to search for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#ax.core.utils.MissingMetrics" title="ax.core.utils.MissingMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">MissingMetrics</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A NamedTuple(missing_objective, Dict[str, missing_outcome_constraint])</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.core.utils.get_missing_metrics_by_name">
+<code class="sig-prename descclassname">ax.core.utils.</code><code class="sig-name descname">get_missing_metrics_by_name</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">metric_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/utils.html#get_missing_metrics_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.utils.get_missing_metrics_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all arm_name, trial_index pairs missing some observations of
+specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – Data to search.</p></li>
+<li><p><strong>metric_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – list of metrics to search for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A Dict[str, missing_metrics], one entry for each metric_name.</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
 </div>
 </div>
 </div>
@@ -3384,6 +3468,7 @@ else None.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ax.core</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#core-classes">Core Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.core.types">Core Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.core.utils">Core Utils</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="exceptions.html">ax.exceptions</a></li>

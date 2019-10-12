@@ -159,7 +159,7 @@ existing experiment. Defaults to False.</p></li>
 <dl class="method">
 <dt id="ax.service.ax_client.AxClient.experiment">
 <em class="property">property </em><code class="sig-name descname">experiment</code><a class="headerlink" href="#ax.service.ax_client.AxClient.experiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the experiment set on this Ax client</p>
+<dd><p>Returns the experiment set on this Ax client.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
@@ -437,6 +437,17 @@ optimization and save it to file by the provided path.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A JSON-safe dict representation of this <cite>AxClient</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.service.ax_client.AxClient.verify_trial_parameterization">
+<code class="sig-name descname">verify_trial_parameterization</code><span class="sig-paren">(</span><em class="sig-param">trial_index</em>, <em class="sig-param">parameterization</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.verify_trial_parameterization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.verify_trial_parameterization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the given parameterization matches that of the arm in the trial
+specified in the trial index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

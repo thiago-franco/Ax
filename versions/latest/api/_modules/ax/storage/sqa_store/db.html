@@ -140,17 +140,19 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="ow">not</span> <span class="n">l1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">l2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">l1</span>
 
-        <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l1</span> <span class="o">+</span> <span class="n">l2</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Cannot call `list_update` on lists that contain "</span>
-                <span class="n">f</span><span class="s2">"multiple different types (</span><span class="si">{l1}</span><span class="s2"> and </span><span class="si">{l2}</span><span class="s2">)."</span>
-            <span class="p">)</span>
-        <span class="n">type_</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">type_</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Enum</span><span class="p">]:</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l1</span> <span class="o">+</span> <span class="n">l2</span><span class="p">}</span>
+        <span class="n">primitive_types</span> <span class="o">=</span> <span class="p">{</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Enum</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">types</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">primitive_types</span><span class="p">):</span>
             <span class="c1"># No need to do a special update here; just return the new list</span>
             <span class="k">return</span> <span class="n">l2</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Cannot call `list_update` on lists that contain a mix of "</span>
+                <span class="n">f</span><span class="s2">"primitive and no primitive types: (</span><span class="si">{l1}</span><span class="s2"> and </span><span class="si">{l2}</span><span class="s2">)."</span>
+            <span class="p">)</span>
+
+        <span class="n">type_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">types</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">SQABase</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Calling list_update on unsupported type </span><span class="si">{type_}</span><span class="s2">."</span><span class="p">)</span>

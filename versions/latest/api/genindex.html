@@ -270,6 +270,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#module-ax.core.types">ax.core.types (module)</a>
 </li>
+<li><a href="core.html#module-ax.core.utils">ax.core.utils (module)</a>
+</li>
 <li><a href="exceptions.html#module-ax.exceptions">ax.exceptions (module)</a>
 </li>
 <li><a href="exceptions.html#module-ax.exceptions.core">ax.exceptions.core (module)</a>
@@ -758,6 +760,8 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.SumConstraint.clone_with_transformed_parameters">(ax.SumConstraint method)</a>
 </li>
 </ul></li>
+<li><a href="core.html#ax.core.data.clone_without_metrics">clone_without_metrics() (in module ax.core.data)</a>
+</li>
 <li><a href="utils.html#ax.utils.tutorials.cnn_utils.CNN">CNN (class in ax.utils.tutorials.cnn_utils)</a>
 </li>
 <li><a href="plot.html#ax.plot.color.COLORS">COLORS (class in ax.plot.color)</a>
@@ -1422,10 +1426,10 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_data">get_data() (in module ax.utils.testing.core_stubs)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_empirical_bayes_thompson">get_empirical_bayes_thompson() (in module ax.modelbridge.factory)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.sqa_store.db.get_engine">get_engine() (in module ax.storage.sqa_store.db)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.get_enum_name">get_enum_name() (ax.storage.sqa_store.decoder.Decoder method)</a>
@@ -1481,6 +1485,10 @@ src="/js/documentation_options.js">
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_metric">get_metric() (in module ax.utils.testing.core_stubs)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.encoder.Encoder.get_metric_type_and_properties">get_metric_type_and_properties() (ax.storage.sqa_store.encoder.Encoder method)</a>
+</li>
+<li><a href="core.html#ax.core.utils.get_missing_metrics">get_missing_metrics() (in module ax.core.utils)</a>
+</li>
+<li><a href="core.html#ax.core.utils.get_missing_metrics_by_name">get_missing_metrics_by_name() (in module ax.core.utils)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_model_covariance">get_model_covariance() (in module ax.utils.testing.core_stubs)</a>
 </li>
@@ -2014,10 +2022,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.objective.ScalarizedObjective.metric_weights">metric_weights() (ax.core.objective.ScalarizedObjective property)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.utils.MetricIntent">MetricIntent (class in ax.storage.utils)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.objective.ScalarizedObjective.metrics">metrics (ax.core.objective.ScalarizedObjective attribute)</a>
 <ul>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAExperiment.metrics">(ax.storage.sqa_store.sqa_classes.SQAExperiment attribute)</a>
@@ -2050,6 +2058,8 @@ src="/js/documentation_options.js">
 </li>
 </ul></li>
 <li><a href="utils.html#ax.utils.measurement.synthetic_functions.SyntheticFunction.minimums">minimums() (ax.utils.measurement.synthetic_functions.SyntheticFunction property)</a>
+</li>
+<li><a href="core.html#ax.core.utils.MissingMetrics">MissingMetrics (class in ax.core.utils)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.random.RandomModelBridge.model">model (ax.modelbridge.random.RandomModelBridge attribute)</a>
 </li>
@@ -2214,6 +2224,8 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="core.html#ax.core.optimization_config.OptimizationConfig.objective">objective() (ax.core.optimization_config.OptimizationConfig property)</a>
 <ul>
+<li><a href="core.html#ax.core.utils.MissingMetrics.objective">(ax.core.utils.MissingMetrics property)</a>
+</li>
 <li><a href="ax.html#ax.OptimizationConfig.objective">(ax.OptimizationConfig property)</a>
 </li>
 </ul></li>
@@ -2338,6 +2350,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.optimization_config.OptimizationConfig.outcome_constraints">outcome_constraints() (ax.core.optimization_config.OptimizationConfig property)</a>
 <ul>
+<li><a href="core.html#ax.core.utils.MissingMetrics.outcome_constraints">(ax.core.utils.MissingMetrics property)</a>
+</li>
 <li><a href="ax.html#ax.OptimizationConfig.outcome_constraints">(ax.OptimizationConfig property)</a>
 </li>
 </ul></li>
@@ -2997,6 +3011,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.utils.MetricIntent.TRACKING">TRACKING (ax.storage.utils.MetricIntent attribute)</a>
 </li>
+<li><a href="core.html#ax.core.utils.MissingMetrics.tracking_metrics">tracking_metrics() (ax.core.utils.MissingMetrics property)</a>
+</li>
 <li><a href="utils.html#ax.utils.tutorials.cnn_utils.train">train() (in module ax.utils.tutorials.cnn_utils)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.base.ModelBridge.training_in_design">training_in_design() (ax.modelbridge.base.ModelBridge property)</a>
@@ -3323,10 +3339,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.common.kwargs.validate_kwarg_typing">validate_kwarg_typing() (in module ax.utils.common.kwargs)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.sqa_store.validation.validate_metric">validate_metric() (in module ax.storage.sqa_store.validation)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="modelbridge.html#ax.modelbridge.array.validate_optimization_config">validate_optimization_config() (in module ax.modelbridge.array)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.validation.validate_parameter">validate_parameter() (in module ax.storage.sqa_store.validation)</a>
@@ -3338,6 +3354,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.parameter.FixedParameter.value">value() (ax.core.parameter.FixedParameter property)</a>
 </li>
 <li><a href="core.html#ax.core.parameter.ChoiceParameter.values">values() (ax.core.parameter.ChoiceParameter property)</a>
+</li>
+<li><a href="service.html#ax.service.ax_client.AxClient.verify_trial_parameterization">verify_trial_parameterization() (ax.service.ax_client.AxClient method)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.registry.Models.view_defaults">view_defaults() (ax.modelbridge.registry.Models method)</a>
 <ul>

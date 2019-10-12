@@ -269,6 +269,25 @@ src="/js/documentation_options.js">
     <span class="k">return</span> <span class="n">Data</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="clone_without_metrics"><a class="viewcode-back" href="../../../core.html#ax.clone_without_metrics">[docs]</a><span class="k">def</span> <span class="nf">clone_without_metrics</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">,</span> <span class="n">excluded_metric_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
+    <span class="sd">"""Returns a new data object where rows containing the metrics specified by</span>
+<span class="sd">    `metric_names` are filtered out. Used to sanitize data before using it as</span>
+<span class="sd">    training data for a model that requires data rectangularity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: Original data to clone.</span>
+<span class="sd">        excluded_metric_names: Metrics to avoid copying</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        new version of the original data without specified metrics.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">Data</span><span class="p">(</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">df</span><span class="p">[</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s2">"metric_name"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded_metric_names</span><span class="p">)</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="custom_data_class"><a class="viewcode-back" href="../../../core.html#ax.custom_data_class">[docs]</a><span class="k">def</span> <span class="nf">custom_data_class</span><span class="p">(</span>
     <span class="n">column_data_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">required_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

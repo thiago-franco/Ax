@@ -307,17 +307,7 @@ src="/js/documentation_options.js">
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">trial_index</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">),</span> <span class="n">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{trial_index}</span><span class="s2">."</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
-                <span class="n">f</span><span class="s2">"Cannot complete trial #</span><span class="si">{trial_index}</span><span class="s2"> as it does not yet exist "</span>
-                <span class="n">f</span><span class="s2">"for experiment </span><span class="si">{self.experiment.name}</span><span class="s2">."</span>
-            <span class="p">)</span>
-        <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">"The Service API only supports `Trial`, not `BatchTrial`."</span>
-            <span class="p">)</span>
-
+        <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
 
@@ -395,10 +385,7 @@ src="/js/documentation_options.js">
 
 <div class="viewcode-block" id="AxClient.get_trial_parameters"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_trial_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TParameterization</span><span class="p">:</span>
         <span class="sd">"""Retrieve the parameterization of the trial by the given index."""</span>
-        <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Trial </span><span class="si">{trial_index}</span><span class="s2"> does not yet exist."</span><span class="p">)</span>
-        <span class="n">trial</span> <span class="o">=</span> <span class="n">checked_cast</span><span class="p">(</span><span class="n">Trial</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trial_index</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span></div>
+        <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="p">)</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span></div>
 
 <div class="viewcode-block" id="AxClient.get_best_parameters"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_best_parameters">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">best_point_utils</span><span class="o">.</span><span class="n">get_best_parameters</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span>
@@ -639,6 +626,17 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">arm_info</span>
         <span class="p">}</span></div>
 
+<div class="viewcode-block" id="AxClient.verify_trial_parameterization"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.verify_trial_parameterization">[docs]</a>    <span class="k">def</span> <span class="nf">verify_trial_parameterization</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parameterization</span><span class="p">:</span> <span class="n">TParameterization</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Whether the given parameterization matches that of the arm in the trial</span>
+<span class="sd">        specified in the trial index.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
+            <span class="o">==</span> <span class="n">parameterization</span>
+        <span class="p">)</span></div>
+
     <span class="c1"># ------------------ JSON serialization &amp; storage methods. -----------------</span>
 
 <div class="viewcode-block" id="AxClient.save_to_json_file"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.save_to_json_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ax_client_snapshot.json"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -696,7 +694,7 @@ src="/js/documentation_options.js">
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
-        <span class="sd">"""Returns the experiment set on this Ax client"""</span>
+        <span class="sd">"""Returns the experiment set on this Ax client."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Experiment not set on Ax client. Must first "</span>
@@ -773,6 +771,30 @@ src="/js/documentation_options.js">
                     <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span>
                 <span class="p">),</span>
             <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Trial</span><span class="p">:</span>
+        <span class="sd">"""Gets trial by given index or raises an error if it does not exist."""</span>
+        <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">:</span>
+            <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trial_index</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">"`AxClient` only supports `Trial`, not `BatchTrial`."</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">trial</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Trial </span><span class="si">{trial_index}</span><span class="s2"> does not yet exist."</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_find_last_trial_with_parameterization</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">parameterization</span><span class="p">:</span> <span class="n">TParameterization</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">"""Given a parameterization, find the last trial in the experiment that</span>
+<span class="sd">        contains an arm with that parameterization.</span>
+<span class="sd">        """</span>
+        <span class="k">for</span> <span class="n">trial_idx</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+            <span class="k">if</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_idx</span><span class="p">)</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span> <span class="o">==</span> <span class="n">parameterization</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">trial_idx</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">"No trial on experiment matches parameterization </span><span class="si">{parameterization}</span><span class="s2">."</span>
+        <span class="p">)</span>
 
     <span class="c1"># -------- Backward-compatibility with old save / load method names. -------</span>
 
