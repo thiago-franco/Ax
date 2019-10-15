@@ -143,6 +143,11 @@ src="/js/documentation_options.js">
         <span class="sd">"""The type of the experiment."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment_type</span>
 
+    <span class="nd">@experiment_type</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">experiment_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Set the type of the experiment."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_experiment_type</span> <span class="o">=</span> <span class="n">experiment_type</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">search_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SearchSpace</span><span class="p">:</span>
         <span class="sd">"""The search space for this experiment.</span>

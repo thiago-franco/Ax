@@ -36,9 +36,12 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.db</span> <span class="k">import</span> <span class="n">session_scope</span>
 <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.encoder</span> <span class="k">import</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_config</span> <span class="k">import</span> <span class="n">SQAConfig</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="k">import</span> <span class="n">datetime_equals</span>
 
 
-<div class="viewcode-block" id="save_experiment"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.save.save_experiment">[docs]</a><span class="k">def</span> <span class="nf">save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SQAConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="save_experiment"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.save.save_experiment">[docs]</a><span class="k">def</span> <span class="nf">save_experiment</span><span class="p">(</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SQAConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">"""Save experiment (using default SQAConfig)."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">Experiment</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Can only save instances of Experiment"</span><span class="p">)</span>
@@ -47,10 +50,12 @@ src="/js/documentation_options.js">
 
     <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">SQAConfig</span><span class="p">()</span>
     <span class="n">encoder</span> <span class="o">=</span> <span class="n">Encoder</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">_save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">)</span></div>
+    <span class="n">_save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">Encoder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_save_experiment</span><span class="p">(</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">Encoder</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">"""Save experiment, using given Encoder instance.</span>
 
 <span class="sd">    1) Convert Ax object to SQLAlchemy object.</span>
@@ -70,6 +75,18 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">existing_sqa_experiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">datetime_equals</span><span class="p">(</span>
+                <span class="n">existing_sqa_experiment</span><span class="o">.</span><span class="n">time_created</span><span class="p">,</span> <span class="n">new_sqa_experiment</span><span class="o">.</span><span class="n">time_created</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="n">overwrite</span> <span class="ow">is</span> <span class="kc">False</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">"An experiment already exists with the name "</span>
+                <span class="n">f</span><span class="s2">"</span><span class="si">{new_sqa_experiment.name}</span><span class="s2">. To overwrite, specify "</span>
+                <span class="s2">"`overwrite = True` when calling `save_experiment`."</span>
+            <span class="p">)</span>
+
         <span class="c1"># Update the SQA object outside of session scope to avoid timeouts.</span>
         <span class="c1"># This object is detached from the session, but contains a database</span>
         <span class="c1"># identity marker, so when we do `session.add` below, SQA knows to</span>

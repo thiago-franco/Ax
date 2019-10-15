@@ -32,7 +32,7 @@ src="/js/documentation_options.js">
 <dl class="class">
 <dt id="ax.benchmark.benchmark_problem.BenchmarkProblem">
 <em class="property">class </em><code class="sig-prename descclassname">ax.benchmark.benchmark_problem.</code><code class="sig-name descname">BenchmarkProblem</code><a class="reference internal" href="_modules/ax/benchmark/benchmark_problem.html#BenchmarkProblem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_problem.BenchmarkProblem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 <p>Contains features that describe a benchmarking problem: its name, its
 global optimum (maximum for maximization problems, minimum for minimization),
 its optimization configuration, and its search space.</p>
@@ -105,7 +105,7 @@ combination.</p>
 <dl class="class">
 <dt id="ax.benchmark.benchmark_runner.BenchmarkResult">
 <em class="property">class </em><code class="sig-prename descclassname">ax.benchmark.benchmark_runner.</code><code class="sig-name descname">BenchmarkResult</code><span class="sig-paren">(</span><em class="sig-param">objective_at_true_best</em>, <em class="sig-param">generator_changes</em>, <em class="sig-param">optimum</em>, <em class="sig-param">fit_times</em>, <em class="sig-param">gen_times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/benchmark/benchmark_runner.html#BenchmarkResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_runner.BenchmarkResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 <dl class="method">
 <dt id="ax.benchmark.benchmark_runner.BenchmarkResult.fit_times">
 <em class="property">property </em><code class="sig-name descname">fit_times</code><a class="headerlink" href="#ax.benchmark.benchmark_runner.BenchmarkResult.fit_times" title="Permalink to this definition">¶</a></dt>
@@ -135,7 +135,7 @@ combination.</p>
 <dl class="class">
 <dt id="ax.benchmark.benchmark_runner.BenchmarkRunner">
 <em class="property">class </em><code class="sig-prename descclassname">ax.benchmark.benchmark_runner.</code><code class="sig-name descname">BenchmarkRunner</code><a class="reference internal" href="_modules/ax/benchmark/benchmark_runner.html#BenchmarkRunner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_runner.BenchmarkRunner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Runner that keeps track of benchmark runs and failures encountered
 during benchmarking.</p>
 <dl class="method">
@@ -145,7 +145,7 @@ during benchmarking.</p>
 and aggregate them into a BenchmarkResult for each problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#ax.benchmark.benchmark_runner.BenchmarkResult" title="ax.benchmark.benchmark_runner.BenchmarkResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkResult</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#ax.benchmark.benchmark_runner.BenchmarkResult" title="ax.benchmark.benchmark_runner.BenchmarkResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkResult</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -155,7 +155,7 @@ and aggregate them into a BenchmarkResult for each problem.</p>
 <dd><p>Messages from errors encoutered while running benchmark test.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,12 +182,12 @@ A benchmark test consists of repeated full benchmark runs.</p>
 a benchmarking problem, total number of iterations, etc.</p></li>
 <li><p><strong>strategy</strong> (<em>generation</em>) – generation strategy that defines which
 generation methods should be used in this benchmarking test</p></li>
-<li><p><strong>num_runs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – how many benchmark runs of given problem and method
+<li><p><strong>num_runs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – how many benchmark runs of given problem and method
 combination to run with the given setup for one benchmark test</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference internal" href="#ax.benchmark.benchmark_runner.BenchmarkSetup" title="ax.benchmark.benchmark_runner.BenchmarkSetup"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkSetup</span></code></a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference internal" href="#ax.benchmark.benchmark_runner.BenchmarkSetup" title="ax.benchmark.benchmark_runner.BenchmarkSetup"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkSetup</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,8 +204,8 @@ benchmarking method and problem combination, etc.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>problem</strong> (<a class="reference internal" href="#ax.benchmark.benchmark_problem.BenchmarkProblem" title="ax.benchmark.benchmark_problem.BenchmarkProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkProblem</span></code></a>) – description of the benchmarking problem for
 this setup</p></li>
-<li><p><strong>total_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – how many optimization iterations to run</p></li>
-<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – if this benchmark requires batch trials,
+<li><p><strong>total_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – how many optimization iterations to run</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – if this benchmark requires batch trials,
 batch size for those. Defaults to None</p></li>
 </ul>
 </dd>
@@ -229,13 +229,13 @@ function. Tracks each call as a Trial. Only works for unconstrained
 problems with a batch size of 1.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – A vector of the point to evaluate</p>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – A vector of the point to evaluate</p>
 </dd>
 </dl>
 <p>Returns: Value of the objective at x</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -245,7 +245,7 @@ problems with a batch size of 1.</p>
 <code class="sig-prename descclassname">ax.benchmark.benchmark_runner.</code><code class="sig-name descname">get_model_times</code><span class="sig-paren">(</span><em class="sig-param">setup</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/benchmark/benchmark_runner.html#get_model_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_runner.get_model_times" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -257,7 +257,7 @@ problems with a batch size of 1.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>optimization_config</strong> (<a class="reference internal" href="core.html#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a>) – Optimization config</p></li>
-<li><p><strong>true_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – Dictionary from metric name to array of value at each
+<li><p><strong>true_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – Dictionary from metric name to array of value at each
 iteration.</p></li>
 </ul>
 </dd>
@@ -275,7 +275,7 @@ iteration.</p></li>
 <dl class="class">
 <dt id="ax.benchmark.benchmark_suite.BOBenchmarkingSuite">
 <em class="property">class </em><code class="sig-prename descclassname">ax.benchmark.benchmark_suite.</code><code class="sig-name descname">BOBenchmarkingSuite</code><a class="reference internal" href="_modules/ax/benchmark/benchmark_suite.html#BOBenchmarkingSuite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_suite.BOBenchmarkingSuite" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Suite that runs all standard Bayesian optimization benchmarks.</p>
 <dl class="method">
 <dt id="ax.benchmark.benchmark_suite.BOBenchmarkingSuite.add_run">
@@ -285,7 +285,7 @@ iteration.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>setup</strong> (<a class="reference internal" href="#ax.benchmark.benchmark_runner.BenchmarkSetup" title="ax.benchmark.benchmark_runner.BenchmarkSetup"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkSetup</span></code></a>) – Run to add</p></li>
-<li><p><strong>strategy_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of strategy used for this run</p></li>
+<li><p><strong>strategy_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of strategy used for this run</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -298,7 +298,7 @@ iteration.</p></li>
 <code class="sig-name descname">generate_report</code><span class="sig-paren">(</span><em class="sig-param">include_individual=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/benchmark/benchmark_suite.html#BOBenchmarkingSuite.generate_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_suite.BOBenchmarkingSuite.generate_report" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -309,14 +309,14 @@ iteration.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_runs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – How many time to run each test.</p></li>
-<li><p><strong>total_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – How many iterations to run each optimization for.</p></li>
-<li><p><strong>bo_strategies</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a>]) – GenerationStrategies representing each method to
+<li><p><strong>num_runs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – How many time to run each test.</p></li>
+<li><p><strong>total_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – How many iterations to run each optimization for.</p></li>
+<li><p><strong>bo_strategies</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a>]) – GenerationStrategies representing each method to
 benchmark.</p></li>
-<li><p><strong>bo_problems</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="#ax.benchmark.benchmark_problem.BenchmarkProblem" title="ax.benchmark.benchmark_problem.BenchmarkProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkProblem</span></code></a>]) – Problems to benchmark the methods on.</p></li>
-<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of arms to be generated and evaluated in optimization
+<li><p><strong>bo_problems</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="#ax.benchmark.benchmark_problem.BenchmarkProblem" title="ax.benchmark.benchmark_problem.BenchmarkProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkProblem</span></code></a>]) – Problems to benchmark the methods on.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of arms to be generated and evaluated in optimization
 at once.</p></li>
-<li><p><strong>raise_all_errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Debugging setting; set to true if all encountered
+<li><p><strong>raise_all_errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Debugging setting; set to true if all encountered
 errors should be raised right away (and interrupt the benchm arking)
 rather than logged and recorded.</p></li>
 </ul>

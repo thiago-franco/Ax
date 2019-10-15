@@ -261,7 +261,9 @@ src="/js/documentation_options.js">
                 <span class="n">enforce_sequential_optimization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_enforce_sequential_optimization</span><span class="p">,</span>
                 <span class="n">random_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+            <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.get_next_trial"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_next_trial">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -717,9 +719,17 @@ src="/js/documentation_options.js">
         <span class="n">opt_config</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">optimization_config</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">opt_config</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">overwrite_existing_experiment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""Saves attached experiment and generation strategy if DB settings are</span>
 <span class="sd">        set on this AxClient instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            overwrite_existing_experiment: If the experiment being created</span>
+<span class="sd">                has the same name as some experiment already stored, this flag</span>
+<span class="sd">                determines whether to overwrite the existing experiment.</span>
+<span class="sd">                Defaults to False.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: Whether the experiment was saved.</span>
@@ -729,6 +739,7 @@ src="/js/documentation_options.js">
                 <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
                 <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
                 <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
+                <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="n">overwrite_existing_experiment</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
